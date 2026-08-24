@@ -1,0 +1,206 @@
+{
+  "main": {
+    "id": "780d7ca8726c0e57",
+    "type": "split",
+    "children": [
+      {
+        "id": "6ae73b29ee899e16",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "d31e955e3d5ed7a1",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "docs/01_Core/CORE_LOOP.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "CORE_LOOP"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "vertical"
+  },
+  "left": {
+    "id": "447618aca9271410",
+    "type": "split",
+    "children": [
+      {
+        "id": "dcc0341b7f63fb3a",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "50a104e9ee307d02",
+            "type": "leaf",
+            "state": {
+              "type": "file-explorer",
+              "state": {
+                "sortOrder": "alphabetical",
+                "autoReveal": false,
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-folder-closed",
+              "title": "文件列表"
+            }
+          },
+          {
+            "id": "c0806e9291b98157",
+            "type": "leaf",
+            "state": {
+              "type": "search",
+              "state": {
+                "query": "",
+                "matchingCase": false,
+                "explainSearch": false,
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical"
+              },
+              "icon": "lucide-search",
+              "title": "搜索"
+            }
+          },
+          {
+            "id": "620f4c7bb448b372",
+            "type": "leaf",
+            "state": {
+              "type": "bookmarks",
+              "state": {
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-bookmark",
+              "title": "书签"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300
+  },
+  "right": {
+    "id": "5ae796badf712331",
+    "type": "split",
+    "children": [
+      {
+        "id": "bd8aa72c5850a2b5",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "a722c4ff07af694d",
+            "type": "leaf",
+            "state": {
+              "type": "backlink",
+              "state": {
+                "file": "docs/01_Core/CORE_LOOP.md",
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical",
+                "showSearch": false,
+                "searchQuery": "",
+                "backlinkCollapsed": false,
+                "unlinkedCollapsed": true
+              },
+              "icon": "links-coming-in",
+              "title": "反向链接"
+            }
+          },
+          {
+            "id": "9de314c6eaccf93d",
+            "type": "leaf",
+            "state": {
+              "type": "outgoing-link",
+              "state": {
+                "file": "docs/01_Core/CORE_LOOP.md",
+                "linksCollapsed": false,
+                "unlinkedCollapsed": true
+              },
+              "icon": "links-going-out",
+              "title": "出链"
+            }
+          },
+          {
+            "id": "4c135eb263ab25b6",
+            "type": "leaf",
+            "state": {
+              "type": "tag",
+              "state": {
+                "sortOrder": "frequency",
+                "useHierarchy": true,
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-tags",
+              "title": "标签"
+            }
+          },
+          {
+            "id": "3a8ed5198000cd9f",
+            "type": "leaf",
+            "state": {
+              "type": "all-properties",
+              "state": {
+                "sortOrder": "frequency",
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-archive",
+              "title": "添加笔记属性"
+            }
+          },
+          {
+            "id": "47b8183fe6aa8a14",
+            "type": "leaf",
+            "state": {
+              "type": "outline",
+              "state": {
+                "file": "docs/01_Core/CORE_LOOP.md",
+                "followCursor": false,
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-list",
+              "title": "大纲"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300,
+    "collapsed": true
+  },
+  "left-ribbon": {
+    "hiddenItems": {
+      "switcher:打开快速切换": false,
+      "graph:查看关系图谱": false,
+      "canvas:新建白板": false,
+      "daily-notes:打开/创建今天的日记": false,
+      "templates:插入模板": false,
+      "command-palette:打开命令面板": false,
+      "bases:新建数据库": false
+    }
+  },
+  "active": "d31e955e3d5ed7a1",
+  "lastOpenFiles": [
+    "docs/00_Vision/GAME_VISION.md",
+    "docs/01_Core/CORE_LOOP.md",
+    "docs/01_Core/DESIGN_PILLARS.md",
+    "docs/03_Systems/ANTIQUE_SYSTEM.md",
+    "docs/99_Project/IDEA_INBOX.md",
+    "docs/99_Project/DECISIONS.md",
+    "tasks/README.md",
+    "tasks/TASK_TEMPLATE.md",
+    "docs/99_Project/ROADMAP.md",
+    "docs/99_Project/KNOWN_ISSUES.md",
+    "docs/99_Project/PLAYTEST_NOTES.md",
+    "docs/INDEX.md"
+  ]
+}
