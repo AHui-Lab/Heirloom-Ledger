@@ -190,9 +190,11 @@
   },
   "active": "d31e955e3d5ed7a1",
   "lastOpenFiles": [
-    "docs/00_Vision/GAME_VISION.md",
+    "docs/02_World/LOCATIONS.md",
+    "docs/02_World/CHARACTERS.md",
     "docs/01_Core/CORE_LOOP.md",
     "docs/01_Core/DESIGN_PILLARS.md",
+    "docs/00_Vision/GAME_VISION.md",
     "docs/03_Systems/ANTIQUE_SYSTEM.md",
     "docs/99_Project/IDEA_INBOX.md",
     "docs/99_Project/DECISIONS.md",
