@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "docs/01_Core/CORE_LOOP.md",
+                "file": "docs/04_Story/STORY.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "CORE_LOOP"
+              "title": "STORY"
             }
           }
         ]
@@ -161,7 +161,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "docs/01_Core/CORE_LOOP.md",
+                "file": "docs/04_Story/STORY.md",
                 "followCursor": false,
                 "showSearch": false,
                 "searchQuery": ""
@@ -169,13 +169,23 @@
               "icon": "lucide-list",
               "title": "大纲"
             }
+          },
+          {
+            "id": "1123dc52d622c09e",
+            "type": "leaf",
+            "state": {
+              "type": "kb-agent-chat-view",
+              "state": {},
+              "icon": "message-square",
+              "title": "知识库对话"
+            }
           }
-        ]
+        ],
+        "currentTab": 5
       }
     ],
     "direction": "horizontal",
-    "width": 300,
-    "collapsed": true
+    "width": 300
   },
   "left-ribbon": {
     "hiddenItems": {
@@ -185,17 +195,35 @@
       "daily-notes:打开/创建今天的日记": false,
       "templates:插入模板": false,
       "command-palette:打开命令面板": false,
-      "bases:新建数据库": false
+      "bases:新建数据库": false,
+      "local-kb-agent:知识库对话": false
     }
   },
-  "active": "d31e955e3d5ed7a1",
+  "active": "1123dc52d622c09e",
   "lastOpenFiles": [
+    "debug.log",
+    "docs/01_Core/CORE_LOOP.md",
+    "prototype/assets/objects-v3-alpha.png.import",
+    "prototype/assets/portraits-v3-alpha.png.import",
+    "prototype/assets/objects-v3.png.import",
+    "prototype/assets/portraits-v3.png.import",
+    "prototype/tests/artifacts/immersive_photo.png.import",
+    "prototype/tests/artifacts/immersive_setup.png.import6167715.tmp",
+    "prototype/tests/test_live_profile_connection.gd.uid",
+    "prototype/tests/test_live_dialogue_quality.gd.uid",
+    "prototype/tests/inspect_profile_metadata.gd.uid",
+    "prototype/assets/objects-v3-alpha.png",
+    "prototype/assets/portraits-v3-alpha.png",
+    "prototype/tools/flatten_checkerboard.py",
+    "prototype/assets/objects-v3.png",
+    "prototype/assets/portraits-v3.png",
+    "docs/03_Systems/ANTIQUE_SYSTEM.md",
+    "docs/02_World/WORLD.md",
     "docs/02_World/LOCATIONS.md",
     "docs/02_World/CHARACTERS.md",
-    "docs/01_Core/CORE_LOOP.md",
+    "docs/01_Core/GAME_RULES.md",
     "docs/01_Core/DESIGN_PILLARS.md",
     "docs/00_Vision/GAME_VISION.md",
-    "docs/03_Systems/ANTIQUE_SYSTEM.md",
     "docs/99_Project/IDEA_INBOX.md",
     "docs/99_Project/DECISIONS.md",
     "tasks/README.md",

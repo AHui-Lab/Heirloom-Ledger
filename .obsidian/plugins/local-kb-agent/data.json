@@ -1,0 +1,25 @@
+{
+  "llm": {
+    "provider": "openai",
+    "model_name": "deepseek-v4-flash-vision-exp",
+    "api_key": "sk-860bca499a7a402a8664d905c52f54fa",
+    "base_url": "https://api.deepseek.com/v1",
+    "temperature": 0.7,
+    "max_tokens": 100000
+  },
+  "embedding": {
+    "provider": "openai",
+    "model_name": "BAAI/bge-m3",
+    "api_key": "sk-xovnzcacqvnztbagmsobswjbevbdxphcedjrrcjmwpwcifnh",
+    "base_url": "https://api.siliconflow.cn/v1"
+  },
+  "rag": {
+    "chunk_size": 500,
+    "chunk_overlap": 50,
+    "search_top_k": 4,
+    "score_threshold": 0.3
+  },
+  "system_prompt": "你是一个智能知识库助手。请基于检索到的知识库内容回答用户的问题。如果知识库中没有相关信息，请如实告知，不要编造内容。回答时请标注信息来源（文档名称）。",
+  "autoIndexOnSave": false,
+  "maxFileSize": 10240
+}

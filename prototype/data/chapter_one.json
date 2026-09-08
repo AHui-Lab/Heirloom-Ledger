@@ -1,0 +1,1379 @@
+{
+  "schema": 1,
+  "title": "旧账未清",
+  "people": [
+    {
+      "id": "zhao",
+      "name": "赵庆生",
+      "voice": "朴实，语气略犹豫，重面子",
+      "public_motive": "屋里要重新收拾，先腾点地方。家里一直说是老东西，我也是听长辈讲的。",
+      "portrait": 0,
+      "identity": "修缮旧宅的街坊",
+      "personality": "五十五岁，好面子，真心相信家传物件值钱。不是所有错误说法都出于欺骗。",
+      "opening": "家里收拾旧宅，翻出件东西。劳您给看看，合适就留在店里。",
+      "motive": "装修要用钱，但不愿承认自己完全不懂。",
+      "category": "瓷器",
+      "budget": 1800,
+      "minimum": 700,
+      "hint": "看看器物再谈价，别光听故事。"
+    },
+    {
+      "id": "lin",
+      "name": "林若岚",
+      "voice": "礼貌，认真核对说法",
+      "public_motive": "是给长辈挑礼物。与其名头大，我更希望送出去以后能说清楚。",
+      "portrait": 1,
+      "identity": "谨慎的年轻顾客",
+      "personality": "谨慎的职场女性，怕送错东西，来源完整比夸张年代更能打动她。",
+      "opening": "我想找件拿得出手的旧物，先看看，不一定今天买。",
+      "motive": "为懂行的长辈准备寿礼，宁肯少些名头，也不愿送出去闹笑话。",
+      "category": "文房",
+      "budget": 2200,
+      "minimum": 0,
+      "hint": "她反复提到体面，或许应该问问是送谁。"
+    },
+    {
+      "id": "sun",
+      "name": "孙玉梅",
+      "voice": "直爽，重视实际记录",
+      "public_motive": "在整理父亲留下的东西。有些自己想留下，有些要先问清楚，不能一股脑全卖。",
+      "portrait": 2,
+      "identity": "茶庄后人的旧物来访",
+      "personality": "退休职工，直率，珍惜父亲留下的生活痕迹，不愿把每段家事都算成钱。",
+      "opening": "家里有件老茶庄留下的东西，放着也占地方，想来问问收不收。",
+      "motive": "整理父亲遗物，也在寻找一张过去的交接存根。",
+      "category": "杂项",
+      "budget": 1200,
+      "minimum": 420,
+      "hint": "家庭回忆能提供方向，仍需与物件和单据核对。"
+    },
+    {
+      "id": "wu",
+      "name": "吴致远",
+      "voice": "简洁，注意器物形制",
+      "public_motive": "放在自己的书房。尺寸和样子合适就行，不一定非追名家。",
+      "portrait": 3,
+      "identity": "年轻设计师",
+      "personality": "喜欢东西本身，愿意听工艺，但预算有上限，不会为故弄玄虚买单。",
+      "opening": "朋友介绍我来的。想给书房找件小东西，别太大，也别贵得离谱。",
+      "motive": "主要自己欣赏，喜欢合适的尺寸与气韵，并非追求名家。",
+      "category": "书画",
+      "budget": 1850,
+      "minimum": 0,
+      "hint": "谈具体用途，比一味强调年代更有效。"
+    },
+    {
+      "id": "zhou",
+      "name": "周伯安",
+      "voice": "慢条斯理，讲究凭据",
+      "public_motive": "来看看你这店重新开得如何。旧东西的来去，最好一笔一笔写明白。",
+      "portrait": 4,
+      "identity": "爷爷的老同行",
+      "personality": "七十三岁，话慢，重手续。他记得旧事，但不愿替别人承担未经核实的结论。",
+      "opening": "门又开了。我带件旧东西来，顺便看看你收拾得怎么样。",
+      "motive": "希望当年经手的保管手续能够补齐，不希望年轻人误把寄存当库存。",
+      "category": "文房",
+      "budget": 2400,
+      "minimum": 560,
+      "hint": "问交接人和原主是不是同一人。"
+    },
+    {
+      "id": "xu",
+      "name": "许闻溪",
+      "voice": "克制，区分观察和推测",
+      "public_motive": "用于修护教学，看得出工艺过程的东西更合适。我不只看新旧名头。",
+      "portrait": 5,
+      "identity": "器物修护师",
+      "personality": "四十二岁，重证据，先讲能看到什么，再讲不能推断什么。她的专业不是万能鉴定。",
+      "opening": "路过来看看。若有合适的器物，想留一件作修护教学的参考。",
+      "motive": "需要有清楚观察价值的器物，不迷信大名头，也不替无证据的故事背书。",
+      "category": "瓷器",
+      "budget": 2600,
+      "minimum": 0,
+      "hint": "她在意你怎样得出结论，而不仅是最后报了几成真。"
+    },
+    {
+      "id": "he",
+      "name": "何景明",
+      "voice": "圆滑但不替别人作决定",
+      "public_motive": "有人托我打听，你这里合适的话以后还能来往。手续嘛，咱们可以边看边谈。",
+      "portrait": 6,
+      "identity": "熟悉行情的经纪人",
+      "personality": "温和利落，愿意提供交易机会，也会试探新掌柜是否核对单据，擅长模糊措辞。",
+      "opening": "这件东西我替人看过一眼，想来你店里问个价。合适的话以后常来往。",
+      "motive": "想凑成一批方便送拍的旧物，手续不完整时会希望先成交再补材料。",
+      "category": "杂项",
+      "budget": 3000,
+      "minimum": 900,
+      "hint": "“替人看过”不等于能够证明出处。"
+    },
+    {
+      "id": "chen",
+      "name": "陈素琴",
+      "voice": "正式，注意说明是否完整",
+      "public_motive": "替一位征集客户先看物件，来源和授权要交代清楚，没有依据的话就不写进介绍。",
+      "portrait": 7,
+      "identity": "小型拍卖的征集负责人",
+      "personality": "五十二岁，专业克制，成交意愿必须服从委托授权和资料核实。",
+      "opening": "最近在整理一场小拍的征集资料。你这里若有合适的东西，我想先看看。",
+      "motive": "寻找来源与授权清楚的物件，拒绝把尚未确认的说法写成图录定论。",
+      "category": "书画",
+      "budget": 3200,
+      "minimum": 0,
+      "hint": "她问手续时，拿出已知记录比编得漂亮更有用。"
+    }
+  ],
+  "items": [
+    {
+      "id": "inkstone",
+      "title": "旧端砚",
+      "category": "文房",
+      "subtype": "砚",
+      "true_era": "清末至民国",
+      "authentic": true,
+      "market_value": 1180,
+      "initial_cost": 520,
+      "source_claim": "爷爷旧账记有购入日期，原卖家姓名已淡。",
+      "clues": [
+        {
+          "text": "石质细润，砚堂有层次不同的墨迹。",
+          "threshold": 0,
+          "weight": 8,
+          "decisive": false
+        },
+        {
+          "text": "边缘磨损与使用部位相合，仍不能仅凭这一点确认具体年代。",
+          "threshold": 45,
+          "weight": 12,
+          "decisive": false
+        }
+      ],
+      "art": 0,
+      "prior": 52,
+      "ask": 1240,
+      "minimum": 760,
+      "description": "旧端砚，可拿到台面查看。来源与断代均须结合现有证据。",
+      "custody": false
+    },
+    {
+      "id": "painting",
+      "title": "山水小品",
+      "category": "书画",
+      "subtype": "画",
+      "true_era": "民国",
+      "authentic": true,
+      "market_value": 1760,
+      "initial_cost": 860,
+      "source_claim": "账本旁注只有“周，暂存”，没有购入价。",
+      "clues": [
+        {
+          "text": "画心和装裱的纸色不同。",
+          "threshold": 0,
+          "weight": 8,
+          "decisive": false
+        },
+        {
+          "text": "装裱可能晚于画心，不能用裱纸直接断画的年代。",
+          "threshold": 45,
+          "weight": 12,
+          "decisive": false
+        }
+      ],
+      "art": 1,
+      "prior": 57,
+      "ask": 1850,
+      "minimum": 1130,
+      "description": "山水小品，可拿到台面查看。来源与断代均须结合现有证据。",
+      "custody": true
+    },
+    {
+      "id": "snuff",
+      "title": "铜胎画珐琅鼻烟壶",
+      "category": "杂项",
+      "subtype": "鼻烟壶",
+      "true_era": "当代仿古",
+      "authentic": false,
+      "market_value": 260,
+      "initial_cost": 680,
+      "source_claim": "旧库存没有可靠流传记录。",
+      "clues": [
+        {
+          "text": "口沿和器身磨损不协调。",
+          "threshold": 0,
+          "weight": -12,
+          "decisive": false
+        },
+        {
+          "text": "内壁保留现代加工痕迹，与所称年代不合。",
+          "threshold": 58,
+          "weight": -22,
+          "decisive": true
+        }
+      ],
+      "art": 2,
+      "prior": 62,
+      "ask": 960,
+      "minimum": 470,
+      "description": "铜胎画珐琅鼻烟壶，可拿到台面查看。来源与断代均须结合现有证据。",
+      "custody": false
+    },
+    {
+      "id": "brushpot",
+      "title": "竹刻笔筒",
+      "category": "文房",
+      "subtype": "笔筒",
+      "true_era": "民国",
+      "authentic": true,
+      "market_value": 760,
+      "initial_cost": 300,
+      "source_claim": "爷爷账上写着“旧市购”，未载作者。",
+      "clues": [
+        {
+          "text": "竹肌颜色深浅有别。",
+          "threshold": 0,
+          "weight": 8,
+          "decisive": false
+        },
+        {
+          "text": "握持位置与磨损对应；作者归属仍无依据。",
+          "threshold": 45,
+          "weight": 12,
+          "decisive": false
+        }
+      ],
+      "art": 3,
+      "prior": 67,
+      "ask": 800,
+      "minimum": 490,
+      "description": "竹刻笔筒，可拿到台面查看。来源与断代均须结合现有证据。",
+      "custody": false
+    },
+    {
+      "id": "blue_bowl",
+      "title": "青花折枝花纹碗",
+      "category": "瓷器",
+      "subtype": "碗",
+      "true_era": "当代仿古",
+      "authentic": false,
+      "market_value": 180,
+      "initial_cost": 0,
+      "source_claim": "老宅橱柜中翻出，家里一直称它是祖传。",
+      "clues": [
+        {
+          "text": "底足磨痕排列过于一致。",
+          "threshold": 0,
+          "weight": -12,
+          "decisive": false
+        },
+        {
+          "text": "遮蔽处残留现代磨具的规则加工痕迹。",
+          "threshold": 58,
+          "weight": -22,
+          "decisive": true
+        }
+      ],
+      "art": 4,
+      "prior": 52,
+      "ask": 1800,
+      "minimum": 650,
+      "description": "青花折枝花纹碗，可拿到台面查看。来源与断代均须结合现有证据。",
+      "custody": false
+    },
+    {
+      "id": "tea_caddy",
+      "title": "竹纹锡茶叶罐",
+      "category": "杂项",
+      "subtype": "茶罐",
+      "true_era": "民国",
+      "authentic": true,
+      "market_value": 920,
+      "initial_cost": 0,
+      "source_claim": "父亲茶庄用过的罐子，家中旧照可能拍到。",
+      "clues": [
+        {
+          "text": "包浆集中在手常接触的位置。",
+          "threshold": 0,
+          "weight": 8,
+          "decisive": false
+        },
+        {
+          "text": "盖沿松动，但没发现新近粘接痕迹。",
+          "threshold": 45,
+          "weight": 12,
+          "decisive": false
+        }
+      ],
+      "art": 5,
+      "prior": 57,
+      "ask": 650,
+      "minimum": 420,
+      "description": "竹纹锡茶叶罐，可拿到台面查看。来源与断代均须结合现有证据。",
+      "custody": false
+    },
+    {
+      "id": "celadon",
+      "title": "仿哥釉小碟",
+      "category": "瓷器",
+      "subtype": "碟",
+      "true_era": "清晚期仿古",
+      "authentic": true,
+      "market_value": 840,
+      "initial_cost": 0,
+      "source_claim": "从一户旧家收来，没有原始票据。",
+      "clues": [
+        {
+          "text": "釉面有深浅不同的开片。",
+          "threshold": 0,
+          "weight": 8,
+          "decisive": false
+        },
+        {
+          "text": "仿古釉色与器形并非同一时代判断依据。",
+          "threshold": 45,
+          "weight": 12,
+          "decisive": false
+        }
+      ],
+      "art": 6,
+      "prior": 62,
+      "ask": 880,
+      "minimum": 540,
+      "description": "仿哥釉小碟，可拿到台面查看。来源与断代均须结合现有证据。",
+      "custody": false
+    },
+    {
+      "id": "seal",
+      "title": "狮钮印石",
+      "category": "文房",
+      "subtype": "印章",
+      "true_era": "当代仿古",
+      "authentic": false,
+      "market_value": 220,
+      "initial_cost": 0,
+      "source_claim": "据说是老先生的案头印，没有印谱对应。",
+      "clues": [
+        {
+          "text": "印面转角十分规整。",
+          "threshold": 0,
+          "weight": -12,
+          "decisive": false
+        },
+        {
+          "text": "凹处有现代工具痕，印文与所谓旧印谱不一致。",
+          "threshold": 58,
+          "weight": -22,
+          "decisive": true
+        }
+      ],
+      "art": 7,
+      "prior": 67,
+      "ask": 810,
+      "minimum": 400,
+      "description": "狮钮印石，可拿到台面查看。来源与断代均须结合现有证据。",
+      "custody": false
+    },
+    {
+      "id": "accountbook",
+      "title": "茶庄流水账",
+      "category": "杂项",
+      "subtype": "纸本",
+      "true_era": "民国",
+      "authentic": true,
+      "market_value": 420,
+      "initial_cost": 0,
+      "source_claim": "旧茶庄杂物中夹着的日常流水簿。",
+      "clues": [
+        {
+          "text": "页面多处见不同墨色与笔压。",
+          "threshold": 0,
+          "weight": 8,
+          "decisive": false
+        },
+        {
+          "text": "纸边损耗与常翻的月份相对应；账目不能直接证明物权。",
+          "threshold": 45,
+          "weight": 12,
+          "decisive": false
+        }
+      ],
+      "art": 8,
+      "prior": 52,
+      "ask": 440,
+      "minimum": 270,
+      "description": "茶庄流水账，可拿到台面查看。来源与断代均须结合现有证据。",
+      "custody": false
+    },
+    {
+      "id": "gaiwan",
+      "title": "白釉盖碗",
+      "category": "瓷器",
+      "subtype": "盖碗",
+      "true_era": "清晚期",
+      "authentic": true,
+      "market_value": 960,
+      "initial_cost": 0,
+      "source_claim": "祖母日常饮茶用器，未附窑口证明。",
+      "clues": [
+        {
+          "text": "碗口有一处极小的磕缺。",
+          "threshold": 0,
+          "weight": 8,
+          "decisive": false
+        },
+        {
+          "text": "釉面气泡与表面风化需结合观察，不能靠单点断真。",
+          "threshold": 45,
+          "weight": 12,
+          "decisive": false
+        }
+      ],
+      "art": 9,
+      "prior": 57,
+      "ask": 1010,
+      "minimum": 610,
+      "description": "白釉盖碗，可拿到台面查看。来源与断代均须结合现有证据。",
+      "custody": false
+    },
+    {
+      "id": "fan",
+      "title": "山水折扇",
+      "category": "书画",
+      "subtype": "扇面",
+      "true_era": "民国",
+      "authentic": true,
+      "market_value": 1150,
+      "initial_cost": 0,
+      "source_claim": "旧书铺收来，作者身份待考。",
+      "clues": [
+        {
+          "text": "折痕处墨色有自然损耗。",
+          "threshold": 0,
+          "weight": 8,
+          "decisive": false
+        },
+        {
+          "text": "扇骨和扇面可能不是同时制作。",
+          "threshold": 45,
+          "weight": 12,
+          "decisive": false
+        }
+      ],
+      "art": 10,
+      "prior": 62,
+      "ask": 1210,
+      "minimum": 740,
+      "description": "山水折扇，可拿到台面查看。来源与断代均须结合现有证据。",
+      "custody": false
+    },
+    {
+      "id": "burner",
+      "title": "兽耳小铜炉",
+      "category": "杂项",
+      "subtype": "铜炉",
+      "true_era": "当代仿古",
+      "authentic": false,
+      "market_value": 350,
+      "initial_cost": 0,
+      "source_claim": "卖家说是旧宅供桌上的东西。",
+      "clues": [
+        {
+          "text": "耳根颜色比炉身均匀。",
+          "threshold": 0,
+          "weight": -12,
+          "decisive": false
+        },
+        {
+          "text": "内侧可见现代翻模接缝，与年代说法矛盾。",
+          "threshold": 58,
+          "weight": -22,
+          "decisive": true
+        }
+      ],
+      "art": 11,
+      "prior": 67,
+      "ask": 1300,
+      "minimum": 630,
+      "description": "兽耳小铜炉，可拿到台面查看。来源与断代均须结合现有证据。",
+      "custody": false
+    },
+    {
+      "id": "teapot",
+      "title": "素面小茶壶",
+      "category": "杂项",
+      "subtype": "茶壶",
+      "true_era": "民国",
+      "authentic": true,
+      "market_value": 680,
+      "initial_cost": 0,
+      "source_claim": "茶庄日常用具，没有名家款。",
+      "clues": [
+        {
+          "text": "壶嘴边缘有轻微使用磨损。",
+          "threshold": 0,
+          "weight": 8,
+          "decisive": false
+        },
+        {
+          "text": "水垢和茶渍分布合理，但并不证明作者身份。",
+          "threshold": 45,
+          "weight": 12,
+          "decisive": false
+        }
+      ],
+      "art": 12,
+      "prior": 52,
+      "ask": 710,
+      "minimum": 440,
+      "description": "素面小茶壶，可拿到台面查看。来源与断代均须结合现有证据。",
+      "custody": false
+    },
+    {
+      "id": "calligraphy",
+      "title": "行书小条幅",
+      "category": "书画",
+      "subtype": "字",
+      "true_era": "民国",
+      "authentic": true,
+      "market_value": 1400,
+      "initial_cost": 0,
+      "source_claim": "邻里旧藏，题赠人不详。",
+      "clues": [
+        {
+          "text": "笔势有停顿和轻重变化。",
+          "threshold": 0,
+          "weight": 8,
+          "decisive": false
+        },
+        {
+          "text": "旧装裱处有折断纤维，需要注意保存。",
+          "threshold": 45,
+          "weight": 12,
+          "decisive": false
+        }
+      ],
+      "art": 13,
+      "prior": 57,
+      "ask": 1470,
+      "minimum": 900,
+      "description": "行书小条幅，可拿到台面查看。来源与断代均须结合现有证据。",
+      "custody": false
+    },
+    {
+      "id": "vase",
+      "title": "青花小瓶",
+      "category": "瓷器",
+      "subtype": "瓶",
+      "true_era": "当代仿古",
+      "authentic": false,
+      "market_value": 300,
+      "initial_cost": 0,
+      "source_claim": "经纪人称整批收来，未逐件查来源。",
+      "clues": [
+        {
+          "text": "颈部釉色与器身略有不同。",
+          "threshold": 0,
+          "weight": -12,
+          "decisive": false
+        },
+        {
+          "text": "底部有现代生产标识被磨除的残留。",
+          "threshold": 58,
+          "weight": -22,
+          "decisive": true
+        }
+      ],
+      "art": 14,
+      "prior": 62,
+      "ask": 1110,
+      "minimum": 540,
+      "description": "青花小瓶，可拿到台面查看。来源与断代均须结合现有证据。",
+      "custody": false
+    },
+    {
+      "id": "scoop",
+      "title": "竹茶则",
+      "category": "文房",
+      "subtype": "茶则",
+      "true_era": "民国",
+      "authentic": true,
+      "market_value": 360,
+      "initial_cost": 0,
+      "source_claim": "茶庄量茶用物，竹面留有旧字号残迹。",
+      "clues": [
+        {
+          "text": "茶槽底部细密磨损。",
+          "threshold": 0,
+          "weight": 8,
+          "decisive": false
+        },
+        {
+          "text": "边缘修整较晚，不能把修整年份当作整件年龄。",
+          "threshold": 45,
+          "weight": 12,
+          "decisive": false
+        }
+      ],
+      "art": 15,
+      "prior": 67,
+      "ask": 380,
+      "minimum": 230,
+      "description": "竹茶则，可拿到台面查看。来源与断代均须结合现有证据。",
+      "custody": false
+    },
+    {
+      "id": "bookends",
+      "title": "木雕书挡",
+      "category": "杂项",
+      "subtype": "木器",
+      "true_era": "民国",
+      "authentic": true,
+      "market_value": 720,
+      "initial_cost": 0,
+      "source_claim": "旧书房移出，材质称谓尚待核对。",
+      "clues": [
+        {
+          "text": "两件底部磨损不完全对称。",
+          "threshold": 0,
+          "weight": 8,
+          "decisive": false
+        },
+        {
+          "text": "榫接牢固，局部上蜡较新，不能仅靠蜡色判木龄。",
+          "threshold": 45,
+          "weight": 12,
+          "decisive": false
+        }
+      ],
+      "art": 16,
+      "prior": 52,
+      "ask": 760,
+      "minimum": 460,
+      "description": "木雕书挡，可拿到台面查看。来源与断代均须结合现有证据。",
+      "custody": false
+    },
+    {
+      "id": "lacquer",
+      "title": "朱漆小盒",
+      "category": "杂项",
+      "subtype": "漆器",
+      "true_era": "清晚期",
+      "authentic": true,
+      "market_value": 880,
+      "initial_cost": 0,
+      "source_claim": "家里存放针线的小盒，未附传承单。",
+      "clues": [
+        {
+          "text": "盒角露出不同层次漆色。",
+          "threshold": 0,
+          "weight": 8,
+          "decisive": false
+        },
+        {
+          "text": "内底有旧补漆，品相需在成交前说明。",
+          "threshold": 45,
+          "weight": 12,
+          "decisive": false
+        }
+      ],
+      "art": 17,
+      "prior": 57,
+      "ask": 920,
+      "minimum": 560,
+      "description": "朱漆小盒，可拿到台面查看。来源与断代均须结合现有证据。",
+      "custody": false
+    },
+    {
+      "id": "scale",
+      "title": "旧天平",
+      "category": "杂项",
+      "subtype": "衡器",
+      "true_era": "民国",
+      "authentic": true,
+      "market_value": 460,
+      "initial_cost": 0,
+      "source_claim": "茶庄称茶用具，与账簿记载用途相符。",
+      "clues": [
+        {
+          "text": "提环处磨损较深。",
+          "threshold": 0,
+          "weight": 8,
+          "decisive": false
+        },
+        {
+          "text": "秤砣曾更换，不能当成完全原配的一套。",
+          "threshold": 45,
+          "weight": 12,
+          "decisive": false
+        }
+      ],
+      "art": 18,
+      "prior": 62,
+      "ask": 480,
+      "minimum": 290,
+      "description": "旧天平，可拿到台面查看。来源与断代均须结合现有证据。",
+      "custody": false
+    },
+    {
+      "id": "plate",
+      "title": "青花花卉盘",
+      "category": "瓷器",
+      "subtype": "盘",
+      "true_era": "清晚期",
+      "authentic": true,
+      "market_value": 1060,
+      "initial_cost": 0,
+      "source_claim": "邻里长辈留下，器名来自旧账。",
+      "clues": [
+        {
+          "text": "边沿有细小磕痕。",
+          "threshold": 0,
+          "weight": 8,
+          "decisive": false
+        },
+        {
+          "text": "纹样近于旧式，但判断需要结合胎釉和器形。",
+          "threshold": 45,
+          "weight": 12,
+          "decisive": false
+        }
+      ],
+      "art": 19,
+      "prior": 67,
+      "ask": 1110,
+      "minimum": 680,
+      "description": "青花花卉盘，可拿到台面查看。来源与断代均须结合现有证据。",
+      "custody": false
+    },
+    {
+      "id": "dropper",
+      "title": "青釉水滴",
+      "category": "文房",
+      "subtype": "水滴",
+      "true_era": "当代仿古",
+      "authentic": false,
+      "market_value": 180,
+      "initial_cost": 0,
+      "source_claim": "旧物摊购入，被当成文房老件。",
+      "clues": [
+        {
+          "text": "注水口边沿异常齐整。",
+          "threshold": 0,
+          "weight": -12,
+          "decisive": false
+        },
+        {
+          "text": "接缝残留工业胶，与整件古物说法不合。",
+          "threshold": 58,
+          "weight": -22,
+          "decisive": true
+        }
+      ],
+      "art": 20,
+      "prior": 52,
+      "ask": 670,
+      "minimum": 320,
+      "description": "青釉水滴，可拿到台面查看。来源与断代均须结合现有证据。",
+      "custody": false
+    },
+    {
+      "id": "scrollbox",
+      "title": "锦面卷轴盒",
+      "category": "杂项",
+      "subtype": "盒",
+      "true_era": "民国",
+      "authentic": true,
+      "market_value": 380,
+      "initial_cost": 0,
+      "source_claim": "盒内留有一张“代管”纸签。",
+      "clues": [
+        {
+          "text": "织物褪色和折角损耗不同。",
+          "threshold": 0,
+          "weight": 8,
+          "decisive": false
+        },
+        {
+          "text": "纸签后来粘入，盒与签必须分开考证。",
+          "threshold": 45,
+          "weight": 12,
+          "decisive": false
+        }
+      ],
+      "art": 21,
+      "prior": 57,
+      "ask": 400,
+      "minimum": 240,
+      "description": "锦面卷轴盒，可拿到台面查看。来源与断代均须结合现有证据。",
+      "custody": false
+    },
+    {
+      "id": "clayjar",
+      "title": "赭釉储茶罐",
+      "category": "杂项",
+      "subtype": "茶罐",
+      "true_era": "民国",
+      "authentic": true,
+      "market_value": 620,
+      "initial_cost": 0,
+      "source_claim": "茶庄库房流出，与锡罐用途不同。",
+      "clues": [
+        {
+          "text": "罐肩有长期擦拭痕。",
+          "threshold": 0,
+          "weight": 8,
+          "decisive": false
+        },
+        {
+          "text": "底足存在旧窑粘，可作工艺线索而非独立年代证明。",
+          "threshold": 45,
+          "weight": 12,
+          "decisive": false
+        }
+      ],
+      "art": 22,
+      "prior": 62,
+      "ask": 650,
+      "minimum": 400,
+      "description": "赭釉储茶罐，可拿到台面查看。来源与断代均须结合现有证据。",
+      "custody": false
+    },
+    {
+      "id": "receipttray",
+      "title": "木托盘与旧收据",
+      "category": "杂项",
+      "subtype": "木器",
+      "true_era": "民国",
+      "authentic": true,
+      "market_value": 540,
+      "initial_cost": 0,
+      "source_claim": "旧茶庄柜台用物，托盘底夹了一张收据。",
+      "clues": [
+        {
+          "text": "托盘背面有晒痕。",
+          "threshold": 0,
+          "weight": 8,
+          "decisive": false
+        },
+        {
+          "text": "收据只写清点数量，没有买断价格。",
+          "threshold": 45,
+          "weight": 12,
+          "decisive": false
+        }
+      ],
+      "art": 23,
+      "prior": 67,
+      "ask": 570,
+      "minimum": 350,
+      "description": "木托盘与旧收据，可拿到台面查看。来源与断代均须结合现有证据。",
+      "custody": false
+    },
+    {
+      "id": "marketbowl",
+      "title": "市集青花碗",
+      "category": "瓷器",
+      "subtype": "杯",
+      "true_era": "民国",
+      "authentic": true,
+      "market_value": 540,
+      "initial_cost": 0,
+      "source_claim": "摊主从旧市收来，原主未留名。",
+      "clues": [
+        {
+          "text": "杯足磨损不均。",
+          "threshold": 0,
+          "weight": 8,
+          "decisive": false
+        },
+        {
+          "text": "纹饰、胎釉应结合对比，未见决定性矛盾。",
+          "threshold": 45,
+          "weight": 12,
+          "decisive": false
+        }
+      ],
+      "art": 4,
+      "prior": 52,
+      "ask": 570,
+      "minimum": 350,
+      "description": "市集青花碗，可拿到台面查看。来源与断代均须结合现有证据。",
+      "custody": false
+    },
+    {
+      "id": "marketseal",
+      "title": "市集闲章",
+      "category": "文房",
+      "subtype": "印章",
+      "true_era": "当代仿古",
+      "authentic": false,
+      "market_value": 120,
+      "initial_cost": 0,
+      "source_claim": "摊主称是老印，拿不出印谱。",
+      "clues": [
+        {
+          "text": "边缘人工磕碰痕较密。",
+          "threshold": 0,
+          "weight": -12,
+          "decisive": false
+        },
+        {
+          "text": "现代机刻痕藏在钮底，和旧工说法相矛盾。",
+          "threshold": 58,
+          "weight": -22,
+          "decisive": true
+        }
+      ],
+      "art": 7,
+      "prior": 57,
+      "ask": 440,
+      "minimum": 220,
+      "description": "市集闲章，可拿到台面查看。来源与断代均须结合现有证据。",
+      "custody": false
+    },
+    {
+      "id": "auctionfan",
+      "title": "小拍扇面",
+      "category": "书画",
+      "subtype": "扇面",
+      "true_era": "民国",
+      "authentic": true,
+      "market_value": 1700,
+      "initial_cost": 0,
+      "source_claim": "委托书记载近代家藏，作者仍待考。",
+      "clues": [
+        {
+          "text": "扇面折痕可见自然老化。",
+          "threshold": 0,
+          "weight": 8,
+          "decisive": false
+        },
+        {
+          "text": "印章有模糊处，不能据此保证名家。",
+          "threshold": 45,
+          "weight": 12,
+          "decisive": false
+        }
+      ],
+      "art": 10,
+      "prior": 62,
+      "ask": 1790,
+      "minimum": 1090,
+      "description": "小拍扇面，可拿到台面查看。来源与断代均须结合现有证据。",
+      "custody": false
+    },
+    {
+      "id": "auctionvase",
+      "title": "小拍青花瓶",
+      "category": "瓷器",
+      "subtype": "瓶",
+      "true_era": "当代仿古",
+      "authentic": false,
+      "market_value": 280,
+      "initial_cost": 0,
+      "source_claim": "图录写“旧藏”，没有连续流传证据。",
+      "clues": [
+        {
+          "text": "釉面磨痕方向单一。",
+          "threshold": 0,
+          "weight": -12,
+          "decisive": false
+        },
+        {
+          "text": "底部规则机磨痕被旧色覆盖。",
+          "threshold": 58,
+          "weight": -22,
+          "decisive": true
+        }
+      ],
+      "art": 14,
+      "prior": 67,
+      "ask": 1040,
+      "minimum": 500,
+      "description": "小拍青花瓶，可拿到台面查看。来源与断代均须结合现有证据。",
+      "custody": false
+    }
+  ],
+  "days": [
+    {
+      "day": 1,
+      "theme": "重开门",
+      "intro": "门轴发出熟悉的轻响。你把爷爷留下的砚台搬到柜台，账本却翻在一张没有价格的旧记录上。",
+      "sellers": [
+        "zhao",
+        "sun"
+      ],
+      "buyers": [
+        "lin",
+        "wu"
+      ],
+      "items": [
+        "blue_bowl",
+        "tea_caddy"
+      ],
+      "challenge_count": 0
+    },
+    {
+      "day": 2,
+      "theme": "礼物的分量",
+      "intro": "昨天的交易还留在脑子里。有人来挑礼物，有人只想把家中旧物换成眼前的现金。",
+      "sellers": [
+        "sun",
+        "zhou"
+      ],
+      "buyers": [
+        "wu",
+        "xu"
+      ],
+      "items": [
+        "celadon",
+        "seal"
+      ],
+      "challenge_count": 2
+    },
+    {
+      "day": 3,
+      "theme": "旧茶香",
+      "intro": "一股旧茶味从包裹里散出来。孙玉梅说，她找的未必是最贵的一件。",
+      "sellers": [
+        "zhou",
+        "he"
+      ],
+      "buyers": [
+        "xu",
+        "chen"
+      ],
+      "items": [
+        "accountbook",
+        "gaiwan"
+      ],
+      "challenge_count": 1
+    },
+    {
+      "day": 4,
+      "theme": "纸上的“周”",
+      "intro": "账页上的“周”像一个答案，也可能只是另一道问题。今天不妨问清经手人与主人有什么分别。",
+      "sellers": [
+        "he",
+        "zhao"
+      ],
+      "buyers": [
+        "chen",
+        "lin"
+      ],
+      "items": [
+        "fan",
+        "burner"
+      ],
+      "challenge_count": 2
+    },
+    {
+      "day": 5,
+      "theme": "一批好货",
+      "intro": "何景明又提起凑一批货的事。价格很动听，手续却还停在“回头再补”。",
+      "sellers": [
+        "zhao",
+        "sun"
+      ],
+      "buyers": [
+        "lin",
+        "wu"
+      ],
+      "items": [
+        "teapot",
+        "calligraphy"
+      ],
+      "challenge_count": 1
+    },
+    {
+      "day": 6,
+      "theme": "磨去的底款",
+      "intro": "许闻溪把东西转到背面。她说，有时候最该看的地方，恰好最不愿意让人看。",
+      "sellers": [
+        "sun",
+        "zhou"
+      ],
+      "buyers": [
+        "wu",
+        "xu"
+      ],
+      "items": [
+        "vase",
+        "scoop"
+      ],
+      "challenge_count": 2
+    },
+    {
+      "day": 7,
+      "theme": "隔街的风声",
+      "intro": "关于你店里的说法开始有了几种版本。它们来自真实经历，也会被人各取所需。",
+      "sellers": [
+        "zhou",
+        "he"
+      ],
+      "buyers": [
+        "xu",
+        "chen"
+      ],
+      "items": [
+        "bookends",
+        "lacquer"
+      ],
+      "challenge_count": 1
+    },
+    {
+      "day": 8,
+      "theme": "预展之前",
+      "intro": "小拍预展开放了。图录写得体面，但你依然可以选择只看，不举牌。",
+      "sellers": [
+        "he",
+        "zhao"
+      ],
+      "buyers": [
+        "chen",
+        "lin"
+      ],
+      "items": [
+        "scale",
+        "plate"
+      ],
+      "challenge_count": 2
+    },
+    {
+      "day": 9,
+      "theme": "清单与存根",
+      "intro": "两张纸终于摆在同一张桌上。数字接近，写下它们的目的却不相同。",
+      "sellers": [
+        "zhao",
+        "sun"
+      ],
+      "buyers": [
+        "lin",
+        "wu"
+      ],
+      "items": [
+        "dropper",
+        "scrollbox"
+      ],
+      "challenge_count": 1
+    },
+    {
+      "day": 10,
+      "theme": "旧账有回音",
+      "intro": "今天你要决定怎样记下这笔旧账。价格可以算清，人情和责任需要你自己作答。",
+      "sellers": [
+        "sun",
+        "zhou"
+      ],
+      "buyers": [
+        "wu",
+        "xu"
+      ],
+      "items": [
+        "clayjar",
+        "receipttray"
+      ],
+      "challenge_count": 2
+    }
+  ],
+  "story_nodes": [
+    {
+      "id": "ledger",
+      "day": 1,
+      "actor": "zhou",
+      "requires": [],
+      "title": "没有价格的一行",
+      "text": "旧账写着：山水一幅、茶器数件，周代接，暂存。落款处没有收购价。",
+      "choices": [
+        {
+          "id": "record",
+          "label": "记下疑点，先保留原页",
+          "flag": "ledger"
+        },
+        {
+          "id": "defer",
+          "defer": true,
+          "label": "今天先处理营业，稍后再查"
+        }
+      ]
+    },
+    {
+      "id": "photo",
+      "day": 3,
+      "actor": "sun",
+      "requires": [
+        "ledger"
+      ],
+      "title": "旧照里的一角",
+      "text": "孙玉梅带来一张茶庄旧照。柜边确有相似锡罐，但一张照片不能证明这批东西全归她家。",
+      "choices": [
+        {
+          "id": "compare",
+          "label": "留下照片副本，与器物分别比对",
+          "flag": "photo",
+          "relation": 1
+        },
+        {
+          "id": "dismiss",
+          "label": "不留照片，也不继续核对这条来源",
+          "relation": -1
+        }
+      ]
+    },
+    {
+      "id": "custody",
+      "day": 4,
+      "actor": "zhou",
+      "requires": [
+        "ledger"
+      ],
+      "title": "签名人的身份",
+      "text": "周伯安承认账上的“周”是自己。当年茶庄停业，他替人把几件物件送给爷爷暂管。签名只证明经手，不代表他是原主。",
+      "choices": [
+        {
+          "id": "ask_stub",
+          "label": "请他找找当年的交接存根",
+          "flag": "custody",
+          "relation": 1
+        },
+        {
+          "id": "rush",
+          "label": "先按库存处理，手续日后再谈",
+          "relation": -1
+        }
+      ]
+    },
+    {
+      "id": "offer",
+      "day": 5,
+      "actor": "he",
+      "requires": [
+        "ledger"
+      ],
+      "title": "先成交，后补纸",
+      "text": "何景明愿意为这批旧物寻找买家。他拿来的转售清单列有器名与几张示意，但没有逐件编号和件数核对，也缺委托授权。",
+      "choices": [
+        {
+          "id": "audit",
+          "label": "要求逐件核对并补齐授权",
+          "flag": "audit",
+          "relation": -1
+        },
+        {
+          "id": "promise",
+          "label": "答应优先让他看货，但不承诺出售",
+          "flag": "promised_he",
+          "relation": 1
+        }
+      ]
+    },
+    {
+      "id": "repair",
+      "day": 6,
+      "actor": "xu",
+      "requires": [
+        "photo",
+        "offer_seen"
+      ],
+      "title": "同名不等于同一件",
+      "text": "许闻溪提醒：旧照中的罐盖轮廓与何景明清单上的示意不一致。后配的盖子不等于整件赝品，但不能把它写成完整原配。",
+      "choices": [
+        {
+          "id": "note",
+          "label": "把这条差异记在器物说明里",
+          "flag": "repair",
+          "relation": 1
+        },
+        {
+          "id": "wait",
+          "defer": true,
+          "label": "先不下结论，保留待查"
+        }
+      ]
+    },
+    {
+      "id": "stub",
+      "day": 7,
+      "actor": "zhou",
+      "requires": [
+        "custody"
+      ],
+      "title": "交接存根",
+      "text": "周伯安找到了存根：代接寄存，未议买断。另页载有孙家联系人，仍需本人确认是否愿意售出。",
+      "choices": [
+        {
+          "id": "copy",
+          "label": "保留存根并联系孙家核对",
+          "flag": "stub",
+          "relation": 1
+        },
+        {
+          "id": "hide",
+          "label": "只记器名，不谈寄存条款",
+          "relation": -2
+        }
+      ]
+    },
+    {
+      "id": "consent",
+      "day": 8,
+      "actor": "sun",
+      "requires": [
+        "stub",
+        "photo"
+      ],
+      "title": "她想留下的东西",
+      "text": "孙玉梅希望找回那幅画。若手续齐全、说明清楚，她愿意委托出售其他茶器。她不接受被迫把整批旧物一起卖掉。",
+      "choices": [
+        {
+          "id": "respect",
+          "label": "确认她保留画、另行决定茶器的意愿",
+          "flag": "consent",
+          "relation": 2
+        },
+        {
+          "id": "pressure",
+          "label": "提出整批出售更方便，请她再想想",
+          "relation": -2
+        }
+      ]
+    },
+    {
+      "id": "catalogue",
+      "day": 9,
+      "actor": "chen",
+      "requires": [
+        "stub",
+        "audit",
+        "repair"
+      ],
+      "title": "图录之前",
+      "text": "陈素琴愿意接收有授权的委托，但要求删去没有依据的名家和原配描述。她不会因为爷爷的名声就省去核对。",
+      "choices": [
+        {
+          "id": "amend",
+          "label": "提交如实说明的清单",
+          "flag": "catalogue",
+          "relation": 1
+        },
+        {
+          "id": "withdraw",
+          "label": "暂不送拍，先把来历查清"
+        }
+      ]
+    }
+  ],
+  "endings": {
+    "return": {
+      "title": "旧物归人",
+      "text": "你把寄存手续补齐，山水小品回到了愿意留下它的人手里。爷爷留下的不是一条保证赚钱的捷径，而是一件等待有人认真做完的事。店仍然要经营，但账本终于分清了库存与寄存。"
+    },
+    "sale": {
+      "title": "有据可循",
+      "text": "你没有用爷爷的名声代替证据。委托、器物说明与保留意见都写进了公开清单，愿意出售的物件进入了交易。钱有了去向，留下的人也知道自己答应过什么。"
+    },
+    "open": {
+      "title": "未完的账",
+      "text": "你关上店门，没有把残缺证据勉强拼成一个动听故事。旧账还没结清，新的往来已经开始。你可以带着这一次的判断重新经营，或接受这份保留。"
+    }
+  }
+}

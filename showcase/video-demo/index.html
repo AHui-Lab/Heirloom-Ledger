@@ -1,0 +1,118 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=1920, height=1080">
+  <title>Heirloom Ledger｜Demo Film</title>
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+  <style>
+    * { box-sizing: border-box; }
+    html, body { margin: 0; width: 1920px; height: 1080px; overflow: hidden; background: #171512; color: #e4c98f; }
+    body { font-family: Georgia, serif; }
+    [data-composition-id="main"] { position: relative; width: 100%; height: 100%; background: #171512; overflow: hidden; }
+    .scene { position: absolute; inset: 0; width: 100%; height: 100%; background-color: #171512; overflow: hidden; }
+    .scene-content { display: flex; flex-direction: column; justify-content: center; width: 100%; height: 100%; padding: 92px 132px; gap: 24px; }
+    .eyebrow { color: #c89f55; font-family: Consolas, monospace; font-size: 20px; letter-spacing: .16em; text-transform: uppercase; }
+    .title { margin: 0; max-width: 1160px; color: #e4c98f; font-size: 100px; line-height: 1.03; font-weight: 500; letter-spacing: -.045em; }
+    .title-cn { display: block; margin-top: 30px; color: #c89f55; font-size: 52px; letter-spacing: .28em; }
+    .subhead { max-width: 860px; color: #c6b89f; font-size: 28px; line-height: 1.55; }
+    .micro { color: #a6947a; font-family: Consolas, monospace; font-size: 18px; letter-spacing: .08em; }
+    .dark-vignette::before { content: ""; position: absolute; inset: 0; pointer-events: none; background: radial-gradient(circle at 72% 45%, rgba(200,159,85,.13), rgba(23,21,18,0) 32%), linear-gradient(90deg, rgba(23,21,18,.96) 0%, rgba(23,21,18,.52) 44%, rgba(23,21,18,.18) 100%); z-index: 1; }
+    .hero-art { position: absolute; right: 0; top: 0; width: 62%; height: 100%; object-fit: cover; object-position: center; opacity: .72; filter: saturate(.78) contrast(1.08); }
+    .content-layer { position: relative; z-index: 2; }
+    .showcase-grid { display: grid; grid-template-columns: 1.18fr .82fr; align-items: center; gap: 68px; height: 100%; }
+    .copy { display: flex; flex-direction: column; gap: 22px; }
+    .copy h2 { margin: 0; max-width: 900px; color: #e4c98f; font-size: 66px; line-height: 1.08; font-weight: 500; letter-spacing: -.04em; }
+    .copy p { margin: 0; max-width: 780px; color: #d4c6ae; font-size: 28px; line-height: 1.5; }
+    .tagline { color: #c89f55; font-size: 22px; letter-spacing: .12em; }
+    .media-frame { position: relative; width: 100%; border: 1px solid #80633a; padding: 12px; background: #221d18; box-shadow: 0 24px 80px rgba(0,0,0,.42); transform-origin: center; }
+    .media-frame::after { content: "PLAYABLE PROTOTYPE"; position: absolute; right: 24px; bottom: 22px; padding: 8px 11px; color: #e4c98f; background: rgba(23,21,18,.84); border: 1px solid #c89f55; font-family: Consolas, monospace; font-size: 14px; letter-spacing: .1em; }
+    .media-frame img { display: block; width: 100%; aspect-ratio: 16 / 9; object-fit: cover; filter: saturate(.9) contrast(1.04); }
+    .stat-row { display: flex; gap: 42px; margin-top: 12px; }
+    .stat strong { display: block; color: #e4c98f; font-size: 48px; font-weight: 500; font-variant-numeric: tabular-nums; }
+    .stat span { color: #a6947a; font-family: Consolas, monospace; font-size: 17px; }
+    .rule { width: 260px; height: 1px; background: #80633a; }
+    .closing { display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; gap: 24px; height: 100%; padding: 92px 132px; }
+    .closing .title { font-size: 92px; }
+    .closing .subhead { max-width: 1100px; }
+    .closing .stat-row { justify-content: center; }
+    .transition { position: absolute; inset: 0; z-index: 20; pointer-events: none; background: #c89f55; transform: translateX(-100%); box-shadow: 0 0 120px rgba(228,201,143,.35); }
+    .grain { position: absolute; inset: 0; z-index: 30; pointer-events: none; opacity: .1; background-image: radial-gradient(rgba(255,245,218,.4) .7px, rgba(255,245,218,0) .7px); background-size: 7px 7px; mix-blend-mode: screen; }
+    .caption { position: absolute; left: 132px; right: 132px; bottom: 72px; z-index: 5; color: #efe5d5; font-size: 25px; line-height: 1.35; text-shadow: 0 3px 12px rgba(0,0,0,.85); }
+  </style>
+</head>
+<body>
+  <div id="root" data-composition-id="main" data-start="0" data-duration="75" data-track-index="0" data-width="1920" data-height="1080">
+    <section id="scene-1" class="scene clip" data-start="0" data-duration="7.5" data-track-index="1">
+      <img class="hero-art" src="assets/hero.png" alt="">
+      <div class="dark-vignette"></div>
+      <div class="scene-content content-layer">
+        <div class="eyebrow">Narrative antique shop sim · Godot prototype</div>
+        <h1 class="title">Heirloom Ledger<span class="title-cn">藏珍账</span></h1>
+        <p class="subhead">一间小店，一本没有价格的旧账，以及一群带着不同记忆回来的人。</p>
+        <div class="micro">CHAPTER 01 / 旧账未清</div>
+      </div>
+    </section>
+
+    <section id="scene-2" class="scene clip" data-start="7.5" data-duration="11.5" data-track-index="1">
+      <div class="scene-content"><div class="showcase-grid"><div class="copy"><div class="tagline">01 / 通过交谈识人</div><h2>客人带来的不只是货，还有各自的说法。</h2><p>玩家先听来意，再决定要问什么。对话是获取交易信息和判断人物的主要玩法渠道。</p><div class="rule"></div></div><div class="media-frame"><img src="assets/01-dialogue.png" alt="店内来客与对话界面"></div></div></div>
+      <div class="caption">通过交谈发现来意，让场景成为第一层菜单。</div>
+    </section>
+
+    <section id="scene-3" class="scene clip" data-start="19" data-duration="11.5" data-track-index="1">
+      <div class="scene-content"><div class="showcase-grid"><div class="media-frame"><img src="assets/03-appraisal.png" alt="物件鉴定与报价界面"></div><div class="copy"><div class="tagline">02 / 线索 ≠ 结论</div><h2>把来源、线索和知识放在一起判断。</h2><p>鉴定提供证据与不确定性，不把一个数字包装成绝对真相。玩家自己决定收购、推荐或放弃。</p><div class="rule"></div></div></div></div>
+      <div class="caption">私人判断、物件资料和整数报价，在同一个决策链里发生。</div>
+    </section>
+
+    <section id="scene-4" class="scene clip" data-start="30.5" data-duration="11.5" data-track-index="1">
+      <div class="scene-content"><div class="showcase-grid"><div class="copy"><div class="tagline">03 / 把判断带到店外</div><h2>去古玩街、拜访专家，或在拍卖里继续跟价。</h2><p>有限批次的外出机会让经营节奏离开柜台，但每次行动仍然受资金、知识和关系约束。</p><div class="rule"></div></div><div class="media-frame"><img src="assets/02-market.png" alt="古玩市场总览"></div></div></div>
+      <div class="caption">店外不是额外的菜单，而是判断的另一种场景。</div>
+    </section>
+
+    <section id="scene-5" class="scene clip" data-start="42" data-duration="11.5" data-track-index="1">
+      <div class="scene-content"><div class="showcase-grid"><div class="media-frame"><img src="assets/04-night.png" alt="夜间茶馆人物交流"></div><div class="copy"><div class="tagline">04 / 人物会记住你做过的事</div><h2>关系不是一次性任务入口。</h2><p>人物往来、旧账回顾和共同看货，会让一次交易变成之后仍然会回来的关系。</p><div class="rule"></div></div></div></div>
+      <div class="caption">夜间交谈，把经营的结果带回人物的生活里。</div>
+    </section>
+
+    <section id="scene-6" class="scene clip" data-start="53.5" data-duration="11.5" data-track-index="1">
+      <div class="scene-content"><div class="showcase-grid"><div class="copy"><div class="tagline">05 / 证据链不能靠一个答案完成</div><h2>照片、存根、账本和人的意愿，各自只能证明一部分。</h2><p>调查笔记把经营记录、人物往来和剧情线索分开保存，让玩家看见自己知道什么，也看见还缺什么。</p><div class="rule"></div></div><div class="media-frame"><img src="assets/05-notebook.png" alt="调查笔记与经营记录"></div></div></div>
+      <div class="caption">承认“目前不能下结论”，也是鉴定与经营的一种成熟。</div>
+    </section>
+
+    <section id="scene-7" class="scene clip" data-start="65" data-duration="10" data-track-index="1">
+      <div class="closing"><div class="eyebrow">A playable chapter prototype</div><h2 class="title">决定你愿意为哪一种处理方式署名。</h2><p class="subhead">归还｜在授权与说明完整后处理｜保留待查</p><div class="stat-row"><div class="stat"><strong>10</strong><span>CHAPTER DAYS</span></div><div class="stat"><strong>8</strong><span>RECURRING NPCS</span></div><div class="stat"><strong>28</strong><span>ITEM RECORDS</span></div><div class="stat"><strong>3</strong><span>ENDING DIRECTIONS</span></div></div><div class="micro">Heirloom Ledger｜藏珍账 · Chapter 01 / 旧账未清</div><div class="micro">Playable prototype · Dialogue shown with local test substitute</div></div>
+    </section>
+
+    <div id="transition-1" class="transition clip" data-start="6.95" data-duration="0.9" data-track-index="2" data-layout-allow-overflow="true"></div>
+    <div id="transition-2" class="transition clip" data-start="18.45" data-duration="0.9" data-track-index="2" data-layout-allow-overflow="true"></div>
+    <div id="transition-3" class="transition clip" data-start="29.95" data-duration="0.9" data-track-index="2" data-layout-allow-overflow="true"></div>
+    <div id="transition-4" class="transition clip" data-start="41.45" data-duration="0.9" data-track-index="2" data-layout-allow-overflow="true"></div>
+    <div id="transition-5" class="transition clip" data-start="52.95" data-duration="0.9" data-track-index="2" data-layout-allow-overflow="true"></div>
+    <div id="transition-6" class="transition clip" data-start="64.45" data-duration="0.9" data-track-index="2" data-layout-allow-overflow="true"></div>
+    <div class="grain" data-layout-ignore="true"></div>
+  </div>
+
+  <script>
+    window.__timelines = window.__timelines || {};
+    const tl = gsap.timeline({ paused: true });
+    const scenes = [
+      { id: "#scene-1", at: 0.25, els: [[".eyebrow", { y: 24, opacity: 0, duration: .65, ease: "sine.out" }], [".title", { y: 38, opacity: 0, duration: .85, ease: "power3.out" }], [".subhead", { y: 24, opacity: 0, duration: .65, ease: "power2.out" }], [".micro", { y: 18, opacity: 0, duration: .55, ease: "circ.out" }], [".hero-art", { scale: 1.08, opacity: 0, duration: 1.1, ease: "power1.out" }]] },
+      { id: "#scene-2", at: 7.72, els: [[".tagline", { x: -36, opacity: 0, duration: .55, ease: "power2.out" }], ["h2", { y: 34, opacity: 0, duration: .75, ease: "power3.out" }], ["p", { y: 24, opacity: 0, duration: .62, ease: "sine.out" }], [".rule", { scaleX: 0, transformOrigin: "left center", duration: .55, ease: "expo.out" }], [".media-frame", { x: 54, rotation: 1.2, opacity: 0, duration: .85, ease: "power2.out" }]] },
+      { id: "#scene-3", at: 19.22, els: [[".tagline", { x: 36, opacity: 0, duration: .55, ease: "power2.out" }], ["h2", { y: 34, opacity: 0, duration: .75, ease: "power3.out" }], ["p", { y: 24, opacity: 0, duration: .62, ease: "sine.out" }], [".rule", { scaleX: 0, transformOrigin: "right center", duration: .55, ease: "expo.out" }], [".media-frame", { x: -54, rotation: -1.2, opacity: 0, duration: .85, ease: "circ.out" }]] },
+      { id: "#scene-4", at: 30.72, els: [[".tagline", { x: -36, opacity: 0, duration: .55, ease: "power2.out" }], ["h2", { y: 34, opacity: 0, duration: .75, ease: "power3.out" }], ["p", { y: 24, opacity: 0, duration: .62, ease: "sine.out" }], [".rule", { scaleX: 0, transformOrigin: "left center", duration: .55, ease: "expo.out" }], [".media-frame", { x: 54, rotation: 1.2, opacity: 0, duration: .85, ease: "power2.out" }]] },
+      { id: "#scene-5", at: 42.22, els: [[".tagline", { x: 36, opacity: 0, duration: .55, ease: "power2.out" }], ["h2", { y: 34, opacity: 0, duration: .75, ease: "power3.out" }], ["p", { y: 24, opacity: 0, duration: .62, ease: "sine.out" }], [".rule", { scaleX: 0, transformOrigin: "right center", duration: .55, ease: "expo.out" }], [".media-frame", { x: -54, rotation: -1.2, opacity: 0, duration: .85, ease: "circ.out" }]] },
+      { id: "#scene-6", at: 53.72, els: [[".tagline", { x: -36, opacity: 0, duration: .55, ease: "power2.out" }], ["h2", { y: 34, opacity: 0, duration: .75, ease: "power3.out" }], ["p", { y: 24, opacity: 0, duration: .62, ease: "sine.out" }], [".rule", { scaleX: 0, transformOrigin: "left center", duration: .55, ease: "expo.out" }], [".media-frame", { x: 54, rotation: 1.2, opacity: 0, duration: .85, ease: "power2.out" }]] },
+      { id: "#scene-7", at: 65.22, els: [[".eyebrow", { y: 22, opacity: 0, duration: .55, ease: "sine.out" }], [".title", { y: 34, opacity: 0, duration: .75, ease: "power3.out" }], [".subhead", { y: 24, opacity: 0, duration: .62, ease: "power2.out" }], [".stat-row", { y: 24, opacity: 0, duration: .65, ease: "circ.out" }], [".micro", { y: 16, opacity: 0, duration: .5, ease: "sine.out", stagger: .08 }]] }
+    ];
+    scenes.forEach((scene) => scene.els.forEach(([selector, vars]) => tl.from(`${scene.id} ${selector}`, vars, scene.at)));
+    ["#transition-1", "#transition-2", "#transition-3", "#transition-4", "#transition-5", "#transition-6"].forEach((selector, index) => {
+      const at = [6.95, 18.45, 29.95, 41.45, 52.95, 64.45][index];
+      tl.fromTo(selector, { xPercent: -100 }, { xPercent: 0, duration: .38, ease: "power2.inOut" }, at);
+      tl.fromTo(selector, { xPercent: 0 }, { xPercent: 100, duration: .42, ease: "power2.inOut" }, at + .38);
+    });
+    tl.to("#scene-7 .title", { scale: 1.02, duration: 5.5, ease: "sine.inOut" }, 68.2);
+    tl.fromTo(".grain", { opacity: 0.04 }, { opacity: 0.12, duration: 12, ease: "sine.inOut" }, 0);
+    window.__timelines.main = tl;
+  </script>
+</body>
+</html>

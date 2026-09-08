@@ -1,0 +1,19 @@
+[application]
+config/name="Heirloom Ledger — 一日试营业"
+run/main_scene="res://immersive.tscn"
+config/description="第一章：旧账未清。保留旧应用名以兼容本地用户数据目录。"
+
+[display]
+window/size/viewport_width=1440
+window/size/viewport_height=900
+window/size/window_width_override=1440
+window/size/window_height_override=900
+window/stretch/mode="canvas_items"
+
+[rendering]
+renderer/rendering_method="gl_compatibility"
+renderer/rendering_method.mobile="gl_compatibility"
+environment/defaults/default_clear_color=Color(0.055, 0.047, 0.039, 1)
+
+[gui]
+theme/default_font_multichannel_signed_distance_field=true

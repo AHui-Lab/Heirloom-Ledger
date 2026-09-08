@@ -1,0 +1,103 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Heirloom Ledger｜藏珍账</title>
+  <meta name="description" content="Heirloom Ledger：一款关于旧物、判断与人情的叙事型古玩店经营游戏原型。">
+  <style>
+    :root { --ink:#171512; --paper:#efe4cf; --muted:#b8aa91; --gold:#c89f55; --gold-soft:#e2c68e; --panel:#25211c; --line:#705733; --green:#29433a; }
+    * { box-sizing:border-box; }
+    html { scroll-behavior:smooth; }
+    body { margin:0; color:var(--paper); background:radial-gradient(circle at 20% 0%, #30271b 0, var(--ink) 42%); font-family: Georgia, "Noto Serif SC", "Songti SC", serif; line-height:1.65; }
+    a { color:var(--gold-soft); }
+    .wrap { width:min(1120px, calc(100% - 40px)); margin:auto; }
+    .nav { display:flex; justify-content:space-between; align-items:center; padding:24px 0; color:var(--muted); font-size:13px; letter-spacing:.08em; }
+    .brand { color:var(--gold-soft); letter-spacing:.18em; font-size:14px; }
+    .nav a { text-decoration:none; margin-left:22px; }
+    .hero { min-height:640px; display:grid; grid-template-columns:1.05fr .95fr; gap:54px; align-items:center; padding:58px 0 84px; }
+    .eyebrow { color:var(--gold); font-size:13px; letter-spacing:.2em; text-transform:uppercase; }
+    h1 { margin:18px 0 16px; font-size:clamp(48px, 8vw, 92px); line-height:1; font-weight:500; letter-spacing:.04em; }
+    h1 span { display:block; color:var(--gold-soft); font-size:.42em; letter-spacing:.26em; margin-top:22px; }
+    .lead { max-width:570px; color:#dfd3be; font-size:19px; }
+    .meta { display:flex; gap:10px; flex-wrap:wrap; margin-top:30px; }
+    .pill { border:1px solid var(--line); border-radius:999px; padding:5px 13px; color:var(--muted); font-size:12px; }
+    .hero-card { position:relative; border:1px solid var(--line); padding:12px; background:#211c17; box-shadow:0 22px 80px #0008; transform:rotate(1.2deg); }
+    .hero-card img { display:block; width:100%; height:auto; filter:saturate(.88) contrast(1.04); }
+    .stamp { position:absolute; right:22px; bottom:22px; background:#171512dd; border:1px solid var(--gold); color:var(--gold-soft); padding:8px 12px; font-size:11px; letter-spacing:.1em; }
+    section { padding:86px 0; border-top:1px solid #4b3b29; }
+    .section-head { display:flex; justify-content:space-between; gap:30px; align-items:end; margin-bottom:30px; }
+    h2 { margin:0; color:var(--gold-soft); font-size:34px; line-height:1.2; font-weight:500; }
+    .section-head p { margin:0; max-width:520px; color:var(--muted); }
+    .loop { display:grid; grid-template-columns:repeat(5, 1fr); gap:1px; background:var(--line); border:1px solid var(--line); }
+    .loop div { padding:22px 18px; background:var(--panel); min-height:140px; }
+    .loop b { display:block; color:var(--gold); font-size:12px; letter-spacing:.12em; margin-bottom:20px; }
+    .loop span { color:#dfd3be; font-size:17px; }
+    .gallery { display:grid; grid-template-columns:repeat(12, 1fr); gap:16px; }
+    figure { margin:0; border:1px solid var(--line); background:var(--panel); padding:9px; }
+    figure img { display:block; width:100%; aspect-ratio:16/10; object-fit:cover; }
+    figure figcaption { color:var(--muted); font-size:13px; padding:9px 3px 2px; }
+    figure:nth-child(1) { grid-column:span 7; }
+    figure:nth-child(2) { grid-column:span 5; }
+    figure:nth-child(3), figure:nth-child(4), figure:nth-child(5) { grid-column:span 4; }
+    .cards { display:grid; grid-template-columns:repeat(3, 1fr); gap:16px; }
+    .card { border:1px solid var(--line); background:linear-gradient(135deg, #2a241d, #1f1b17); padding:26px; min-height:230px; }
+    .card .num { color:var(--gold); font-size:12px; letter-spacing:.18em; }
+    .card h3 { color:var(--gold-soft); font-size:21px; font-weight:500; margin:14px 0 10px; }
+    .card p { color:#cfc1aa; margin:0; font-size:15px; }
+    .quote { max-width:850px; font-size:30px; line-height:1.45; color:#ead9b7; border-left:2px solid var(--gold); padding-left:28px; }
+    .facts { display:grid; grid-template-columns:repeat(4,1fr); gap:1px; background:var(--line); border:1px solid var(--line); }
+    .fact { background:var(--panel); padding:23px; }
+    .fact strong { display:block; color:var(--gold-soft); font-size:30px; font-weight:500; }
+    .fact small { color:var(--muted); }
+    .note { margin-top:26px; padding:17px 20px; color:var(--muted); background:#1d1915; border:1px solid #4d3e2c; font-size:13px; }
+    footer { padding:44px 0 70px; color:var(--muted); font-size:13px; display:flex; justify-content:space-between; gap:24px; }
+    @media (max-width:780px) { .wrap { width:min(100% - 28px, 560px); } .nav a { margin-left:10px; } .hero { grid-template-columns:1fr; min-height:auto; padding:48px 0 64px; } .hero-card { transform:none; } .loop, .cards, .facts { grid-template-columns:1fr 1fr; } .gallery { display:block; } figure { margin-bottom:14px; } .section-head { display:block; } .section-head p { margin-top:14px; } footer { display:block; } }
+    @media (max-width:480px) { .loop, .cards, .facts { grid-template-columns:1fr; } h1 { font-size:52px; } .quote { font-size:23px; } }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <nav class="nav"><div class="brand">HL / CASE STUDY 01</div><div><a href="#experience">体验</a><a href="#screens">画面</a><a href="#making">制作</a></div></nav>
+
+    <header class="hero">
+      <div>
+        <div class="eyebrow">Narrative antique shop sim · Godot prototype</div>
+        <h1>Heirloom<br>Ledger<span>藏珍账</span></h1>
+        <p class="lead">一间小店，一本没有价格的旧账，以及一群带着不同记忆回来的人。玩家要做的，不是猜中系统答案，而是在证据不完整时决定自己愿意承担什么。</p>
+        <div class="meta"><span class="pill">10-day chapter</span><span class="pill">8 recurring NPCs</span><span class="pill">28 item records</span><span class="pill">Playable prototype</span></div>
+      </div>
+      <div class="hero-card"><img src="assets/01-dialogue.png" alt="店内对话与物件交易画面"><div class="stamp">LOCAL TEST DIALOGUE</div></div>
+    </header>
+
+    <section id="experience">
+      <div class="section-head"><h2>核心体验</h2><p>把古玩经营从数值菜单拉回到具体的人、物件和一笔需要署名的处理方式。</p></div>
+      <div class="loop"><div><b>01 / 进入</b><span>走进店铺，观察场景与来客</span></div><div><b>02 / 交谈</b><span>从说法和语气里发现来意</span></div><div><b>03 / 判断</b><span>把来源、线索和知识放在一起</span></div><div><b>04 / 交易</b><span>报价、放弃，或确认钱货交割</span></div><div><b>05 / 留痕</b><span>让库存、关系和旧账继续推进</span></div></div>
+    </section>
+
+    <section id="screens">
+      <div class="section-head"><h2>试玩切片</h2><p>从柜台到古玩街，从私人判断到夜间往来，界面让调查节奏自然发生在场景里。</p></div>
+      <div class="gallery">
+        <figure><img src="assets/01-dialogue.png" alt="店内来客与对话界面"><figcaption>场景化接待：对话、私人判断与交易动作分层。</figcaption></figure>
+        <figure><img src="assets/02-market.png" alt="古玩市场总览"><figcaption>店外市场：多个商户与有限批次的看货机会。</figcaption></figure>
+        <figure><img src="assets/03-appraisal.png" alt="物件鉴定与报价界面"><figcaption>物件详情：证据、鉴定与整数报价。</figcaption></figure>
+        <figure><img src="assets/04-night.png" alt="夜间茶馆人物交流"><figcaption>夜间往来：人物关系不是一次性任务入口。</figcaption></figure>
+        <figure><img src="assets/05-notebook.png" alt="调查笔记与经营记录"><figcaption>随身笔记：经营记录、剧情调查和人物往来分开保存。</figcaption></figure>
+      </div>
+      <div class="note">展示说明：截图来自本地 Godot 原型。对白为测试替身；页面不展示配置页、API Key、用户目录、运行日志或内部测试入口。</div>
+    </section>
+
+    <section id="making">
+      <div class="section-head"><h2>制作方法</h2><p>把“世界会变化”拆成可验证的数据和边界，再让表达层服务于玩家判断。</p></div>
+      <div class="cards"><article class="card"><div class="num">DESIGN</div><h3>证据先于答案</h3><p>照片、存根、账本和人的意愿各自只能证明它有资格证明的部分；证据不足本身也是一种有效的玩家判断。</p></article><article class="card"><div class="num">SYSTEM</div><h3>Game Core 守住事实</h3><p>资金、库存、物件判断、关系、记忆和剧情旗标由核心状态保存；表达层不能临时改写权威世界。</p></article><article class="card"><div class="num">CONTENT</div><h3>数据驱动章节</h3><p>第一章用 10 天、8 名重要人物和 28 件器物组成一条可完整试玩、可追踪证据与收束的内容切片。</p></article></div>
+    </section>
+
+    <section>
+      <p class="quote">“暂时落在手里的东西，并不因此成为自己的。”<br><small>— Chapter 01 · 旧账未清</small></p>
+      <div class="facts"><div class="fact"><strong>10</strong><small>章节化营业日</small></div><div class="fact"><strong>8</strong><small>重复来访的重要 NPC</small></div><div class="fact"><strong>28</strong><small>带流转状态的器物数据</small></div><div class="fact"><strong>3</strong><small>章节收束方向</small></div></div>
+    </section>
+
+    <footer><div>Heirloom Ledger｜藏珍账<br>作品集公开展示包 · 2026</div><div>Playable prototype<br>Dialogue shown with local test substitute</div></footer>
+  </div>
+</body>
+</html>
