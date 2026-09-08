@@ -1,0 +1,152 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=1080, height=1920">
+  <title>Heirloom Ledger · 试玩记录</title>
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+  <style>
+    * { box-sizing: border-box; }
+    html, body { margin: 0; width: 1080px; height: 1920px; overflow: hidden; background: #141311; color: #e4c98f; }
+    body { font-family: Georgia, serif; }
+    #root { position: relative; width: 1080px; height: 1920px; overflow: hidden; background: #141311; }
+    .scene { position: absolute; inset: 0; width: 1080px; height: 1920px; overflow: hidden; background: #141311; }
+    .scene::before { content: ""; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(200,159,85,.06), transparent 28%, rgba(0,0,0,.2)); pointer-events: none; }
+    .topbar { position: absolute; left: 48px; right: 48px; top: 70px; display: flex; align-items: center; justify-content: space-between; color: #a6947a; font-family: Consolas, monospace; font-size: 20px; letter-spacing: .07em; }
+    .topbar strong { color: #e4c98f; font-size: 22px; font-weight: 500; letter-spacing: .02em; }
+    .rec { display: flex; align-items: center; gap: 10px; }
+    .rec i { display: block; width: 12px; height: 12px; border-radius: 50%; background: #c36e57; box-shadow: 0 0 16px rgba(195,110,87,.75); }
+    .game-frame { position: absolute; left: 36px; top: 188px; width: 1008px; height: 630px; padding: 5px; border: 1px solid #80633a; background: #201c17; box-shadow: 0 26px 80px rgba(0,0,0,.5); overflow: hidden; }
+    .game-screen { position: relative; width: 998px; height: 620px; overflow: hidden; background: #0e0d0b; }
+    .game-screen img { display: block; width: 998px; height: 620px; object-fit: fill; filter: saturate(.94) contrast(1.03); transform-origin: center center; }
+    .screen-corner { position: absolute; top: 18px; left: 18px; padding: 8px 12px; color: #e4c98f; background: rgba(17,15,12,.78); border: 1px solid rgba(200,159,85,.72); font-family: Consolas, monospace; font-size: 16px; letter-spacing: .08em; z-index: 4; }
+    .screen-corner.right { left: auto; right: 18px; color: #d4c6ae; border-color: rgba(212,198,174,.42); }
+    .pointer { position: absolute; left: 0; top: 0; width: 31px; height: 42px; z-index: 12; filter: drop-shadow(0 3px 5px rgba(0,0,0,.9)); clip-path: polygon(0 0, 0 86%, 26% 66%, 43% 100%, 58% 93%, 42% 60%, 77% 58%); background: #f9f0d8; transform-origin: 0 0; }
+    .click-pulse { position: absolute; left: 0; top: 0; width: 44px; height: 44px; margin: -22px 0 0 -22px; z-index: 11; border: 2px solid #e4c98f; border-radius: 50%; opacity: 0; box-shadow: 0 0 0 7px rgba(200,159,85,.15), 0 0 22px rgba(228,201,143,.6); pointer-events: none; }
+    .focus-ring { position: absolute; z-index: 9; border: 2px solid #e4c98f; border-radius: 5px; box-shadow: 0 0 0 5px rgba(200,159,85,.12), 0 0 18px rgba(228,201,143,.42); opacity: 0; pointer-events: none; }
+    .stream-mask { position: absolute; z-index: 8; padding: 7px 10px; border: 1px solid rgba(200,159,85,.5); background: rgba(30,27,23,.96); color: #f0e6d7; font-size: 19px; line-height: 1.35; white-space: nowrap; overflow: hidden; opacity: 0; }
+    .stream-char { opacity: 0; }
+    .action-log { position: absolute; left: 48px; right: 48px; top: 884px; min-height: 182px; padding: 22px 24px; border-left: 3px solid #c89f55; background: #211d18; box-shadow: 0 14px 40px rgba(0,0,0,.25); }
+    .action-log .label { color: #c89f55; font-family: Consolas, monospace; font-size: 17px; letter-spacing: .09em; text-transform: uppercase; }
+    .action-log .line { margin-top: 14px; color: #e6d8c3; font-size: 30px; line-height: 1.35; }
+    .action-log .muted { margin-top: 10px; color: #c7b89f; font-family: Consolas, monospace; font-size: 17px; letter-spacing: .04em; }
+    .play-rail { position: absolute; left: 48px; right: 48px; top: 1170px; display: grid; grid-template-columns: repeat(5, 1fr); gap: 10px; opacity: 0; }
+    .play-node { min-height: 70px; padding: 13px 11px; border: 1px solid #4f402a; background: rgba(31,27,22,.76); color: #947e60; font-family: Consolas, monospace; font-size: 15px; line-height: 1.25; letter-spacing: .03em; }
+    .play-node b { display: block; margin-bottom: 6px; color: #b7a78b; font-size: 13px; }
+    .play-rail.active-1 .play-node:nth-child(1), .play-rail.active-2 .play-node:nth-child(2), .play-rail.active-3 .play-node:nth-child(3), .play-rail.active-4 .play-node:nth-child(4), .play-rail.active-5 .play-node:nth-child(5) { border-color: #c89f55; color: #e4c98f; box-shadow: 0 0 18px rgba(200,159,85,.16); }
+    .play-rail.active-1 .play-node:nth-child(1) b, .play-rail.active-2 .play-node:nth-child(2) b, .play-rail.active-3 .play-node:nth-child(3) b, .play-rail.active-4 .play-node:nth-child(4) b, .play-rail.active-5 .play-node:nth-child(5) b { color: #c89f55; }
+    .bottom-caption { position: absolute; left: 48px; right: 48px; bottom: 185px; color: #d4c6ae; font-size: 24px; line-height: 1.4; text-align: center; text-shadow: 0 3px 16px #000; }
+    .tiny-note { position: absolute; left: 48px; right: 48px; bottom: 145px; color: #b7a78b; font-family: Consolas, monospace; font-size: 15px; letter-spacing: .05em; text-align: center; }
+    .toast { position: absolute; z-index: 10; left: 50%; top: 514px; transform: translateX(-50%); padding: 13px 20px; color: #191611; background: #c89f55; border-radius: 3px; font-family: Consolas, monospace; font-size: 18px; letter-spacing: .03em; opacity: 0; white-space: nowrap; }
+    .price-tag { position: absolute; z-index: 10; left: 576px; top: 296px; padding: 8px 14px; color: #f3e8d5; background: rgba(27,24,20,.92); border: 1px solid #c89f55; font-family: Consolas, monospace; font-size: 20px; opacity: 0; }
+    .notebook-tag { position: absolute; z-index: 10; left: 345px; top: 286px; padding: 8px 14px; color: #191611; background: #c89f55; border-radius: 3px; font-family: Consolas, monospace; font-size: 18px; opacity: 0; }
+    .transition { position: absolute; inset: 0; z-index: 30; background: #c89f55; pointer-events: none; box-shadow: 0 0 120px rgba(228,201,143,.45); }
+    .grain { position: absolute; inset: 0; z-index: 40; pointer-events: none; opacity: .07; background-image: radial-gradient(rgba(255,245,218,.4) .7px, rgba(255,245,218,0) .7px); background-size: 7px 7px; mix-blend-mode: screen; }
+  </style>
+</head>
+<body>
+  <div id="root" data-composition-id="main" data-start="0" data-duration="48" data-track-index="0" data-width="1080" data-height="1920">
+    <section id="scene-1" class="scene clip" data-start="0" data-duration="11" data-track-index="1">
+      <div class="topbar"><strong>HEIRLOOM LEDGER · 藏珍账</strong><span class="rec"><i></i>PLAYTEST / DAY 1</span></div>
+      <div class="game-frame">
+        <div class="game-screen"><img data-layout-allow-overflow="true" src="assets/01-dialogue.png" alt="藏珍账店内对话界面"><div class="stream-mask input-stream" data-layout-ignore="true" data-layout-allow-overlap="true" data-layout-allow-occlusion="true" data-layout-allow-overflow="true" style="left: 563px; top: 495px; width: 370px; height: 36px;"><span class="stream-char">这</span><span class="stream-char">件</span><span class="stream-char">东</span><span class="stream-char">西</span><span class="stream-char">是</span><span class="stream-char">怎</span><span class="stream-char">么</span><span class="stream-char">来</span><span class="stream-char">的</span><span class="stream-char">？</span></div><div class="stream-mask npc-stream" data-layout-ignore="true" data-layout-allow-overlap="true" data-layout-allow-occlusion="true" data-layout-allow-overflow="true" style="left: 563px; top: 320px; width: 408px; height: 73px;"><span class="stream-char">这</span><span class="stream-char">件</span><span class="stream-char">东</span><span class="stream-char">西</span><span class="stream-char">我</span><span class="stream-char">想</span><span class="stream-char">再</span><span class="stream-char">看</span><span class="stream-char">看</span><span class="stream-char">。</span><span class="stream-char">来</span><span class="stream-char">历</span><span class="stream-char">和</span><span class="stream-char">品</span><span class="stream-char">相</span><span class="stream-char">，</span><span class="stream-char">还</span><span class="stream-char">是</span><span class="stream-char">得</span><span class="stream-char">一</span><span class="stream-char">项</span><span class="stream-char">一</span><span class="stream-char">项</span><span class="stream-char">说</span><span class="stream-char">清</span><span class="stream-char">楚</span><span class="stream-char">。</span></div><div class="focus-ring input-focus" style="left: 560px; top: 492px; width: 375px; height: 42px;"></div><div class="focus-ring send-focus" style="left: 933px; top: 492px; width: 56px; height: 42px;"></div><div class="pointer"></div><div class="click-pulse"></div>
+      </div>
+      </div>
+      <div class="action-log" data-layout-allow-overflow="true"><div class="label">PLAYER ACTION / 01</div><div class="line">点击输入框 → 询问来历</div><div class="muted">文字不是预设选项，玩家自己决定问什么。</div></div><div class="play-rail active-1" data-layout-allow-overflow="true"><div class="play-node"><b>01</b>询问</div><div class="play-node"><b>02</b>出行</div><div class="play-node"><b>03</b>鉴定</div><div class="play-node"><b>04</b>记忆</div><div class="play-node"><b>05</b>记录</div></div>
+      <div class="bottom-caption" data-layout-allow-occlusion="true">先聊一句，再决定这件东西值不值得接手。</div><div class="tiny-note">A playable conversation loop · not a title card</div>
+    </section>
+
+    <section id="scene-2" class="scene clip" data-start="11" data-duration="10" data-track-index="1">
+      <div class="topbar"><strong>HEIRLOOM LEDGER · 藏珍账</strong><span>DAY 1 / NOON · MARKET</span></div>
+      <div class="game-frame"><div class="game-screen"><img data-layout-allow-overflow="true" src="assets/02-market.png" alt="槐安古玩市场界面"><div class="pointer"></div><div class="click-pulse"></div><div class="focus-ring market-focus" style="left: 552px; top: 238px; width: 108px; height: 68px;"></div><div class="toast market-toast">已选择：松书书屋</div></div></div>
+      <div class="action-log" data-layout-allow-overflow="true"><div class="label">PLAYER ACTION / 02</div><div class="line">移动鼠标 → 点击「松书书屋」</div><div class="muted">从自己的店走出去，去找人、找物，也找线索。</div></div><div class="play-rail active-2" data-layout-allow-overflow="true"><div class="play-node"><b>01</b>询问</div><div class="play-node"><b>02</b>出行</div><div class="play-node"><b>03</b>鉴定</div><div class="play-node"><b>04</b>记忆</div><div class="play-node"><b>05</b>记录</div></div>
+      <div class="bottom-caption">一次点击，跳到另一个场景。</div><div class="tiny-note">Scene change is a game action · not a slide transition</div>
+    </section>
+
+    <section id="scene-3" class="scene clip" data-start="21" data-duration="10" data-track-index="1">
+      <div class="topbar"><strong>HEIRLOOM LEDGER · 藏珍账</strong><span>ITEM INSPECTION / OFFER</span></div>
+      <div class="game-frame"><div class="game-screen"><img data-layout-allow-overflow="true" src="assets/03-appraisal.png" alt="物件鉴定与报价界面"><div class="focus-ring offer-focus" style="left: 240px; top: 158px; width: 520px; height: 47px;"></div><div class="price-tag">¥ 1040 · OFFER</div><div class="pointer"></div><div class="click-pulse"></div></div></div>
+      <div class="action-log" data-layout-allow-overflow="true"><div class="label">PLAYER ACTION / 03</div><div class="line">点击「向店家出价 / 还价」</div><div class="muted">AI 可以帮忙表达，但真伪、风险和报价仍然回到游戏规则。</div></div><div class="play-rail active-3" data-layout-allow-overflow="true"><div class="play-node"><b>01</b>询问</div><div class="play-node"><b>02</b>出行</div><div class="play-node"><b>03</b>鉴定</div><div class="play-node"><b>04</b>记忆</div><div class="play-node"><b>05</b>记录</div></div>
+      <div class="bottom-caption">线索不会替你做决定，选择才会留下后果。</div><div class="tiny-note">Appraisal · negotiation · consequence</div>
+    </section>
+
+    <section id="scene-4" class="scene clip" data-start="31" data-duration="10" data-track-index="1">
+      <div class="topbar"><strong>HEIRLOOM LEDGER · 藏珍账</strong><span>DAY 1 / CLOSED · NIGHT VISIT</span></div>
+      <div class="game-frame"><div class="game-screen"><img data-layout-allow-overflow="true" src="assets/04-night.png" alt="夜间人物交流界面"><div class="stream-mask npc-night-stream" data-layout-ignore="true" data-layout-allow-overlap="true" data-layout-allow-occlusion="true" data-layout-allow-overflow="true" style="left: 563px; top: 319px; width: 408px; height: 73px;"><span class="stream-char">您</span><span class="stream-char">看</span><span class="stream-char">看</span><span class="stream-char">这</span><span class="stream-char">方</span><span class="stream-char">砚</span><span class="stream-char">。</span></div><div class="focus-ring night-focus" style="left: 742px; top: 413px; width: 118px; height: 42px;"></div><div class="pointer"></div><div class="click-pulse"></div></div></div>
+      <div class="action-log" data-layout-allow-overflow="true"><div class="label">PLAYER ACTION / 04</div><div class="line">点击「拿库存一起看」→ NPC 回复开始流式出现</div><div class="muted">人物会记住你做过的事，下一天还会带着状态回来。</div></div><div class="play-rail active-4" data-layout-allow-overflow="true"><div class="play-node"><b>01</b>询问</div><div class="play-node"><b>02</b>出行</div><div class="play-node"><b>03</b>鉴定</div><div class="play-node"><b>04</b>记忆</div><div class="play-node"><b>05</b>记录</div></div>
+      <div class="bottom-caption">对白不是一次性弹窗，而是关系继续变化的入口。</div><div class="tiny-note">NPC memory · persistent state · next day</div>
+    </section>
+
+    <section id="scene-5" class="scene clip" data-start="41" data-duration="7" data-track-index="1">
+      <div class="topbar"><strong>HEIRLOOM LEDGER · 藏珍账</strong><span>NOTEBOOK / INVESTIGATION</span></div>
+      <div class="game-frame"><div class="game-screen"><img data-layout-allow-overflow="true" src="assets/05-notebook.png" alt="随身笔记与剧情调查界面"><div class="focus-ring notebook-focus" style="left: 285px; top: 24px; width: 108px; height: 40px;"></div><div class="notebook-tag">剧情调查已打开</div><div class="pointer"></div><div class="click-pulse"></div></div></div>
+      <div class="action-log" data-layout-allow-overflow="true"><div class="label">PLAYER ACTION / 05</div><div class="line">点击「剧情调查」→ 查看已经留下的线索</div><div class="muted">这就是我用 vibe coding 先做出来的一条完整玩法链。</div></div><div class="play-rail active-5" data-layout-allow-overflow="true"><div class="play-node"><b>01</b>询问</div><div class="play-node"><b>02</b>出行</div><div class="play-node"><b>03</b>鉴定</div><div class="play-node"><b>04</b>记忆</div><div class="play-node"><b>05</b>记录</div></div>
+      <div class="bottom-caption">从文档到可玩，从可玩到下一轮迭代。</div><div class="tiny-note">Heirloom Ledger · Godot playable prototype · Chapter 01</div>
+    </section>
+
+    <div id="transition-1" class="transition clip" data-start="10.65" data-duration=".7" data-track-index="2" data-layout-allow-overflow="true"></div>
+    <div id="transition-2" class="transition clip" data-start="20.65" data-duration=".7" data-track-index="2" data-layout-allow-overflow="true"></div>
+    <div id="transition-3" class="transition clip" data-start="30.65" data-duration=".7" data-track-index="2" data-layout-allow-overflow="true"></div>
+    <div id="transition-4" class="transition clip" data-start="40.65" data-duration=".7" data-track-index="2" data-layout-allow-overflow="true"></div>
+    <div class="grain" data-layout-ignore="true"></div>
+  </div>
+
+  <script>
+    window.__timelines = window.__timelines || {};
+    const tl = gsap.timeline({ paused: true });
+    const screenIn = (id, at) => {
+      tl.fromTo(`${id} .game-frame`, { y: 18, scale: .985, opacity: 0 }, { y: 0, scale: 1, opacity: 1, duration: .55, ease: "power3.out" }, at);
+      tl.fromTo(`${id} .topbar`, { y: 12, opacity: 0 }, { y: 0, opacity: 1, duration: .4, ease: "sine.out" }, at + .08);
+      tl.fromTo(`${id} .action-log`, { y: 16, opacity: 0 }, { y: 0, opacity: 1, duration: .5, ease: "power2.out" }, at + .3);
+      tl.fromTo(`${id} .play-rail`, { y: 12, opacity: 0 }, { y: 0, opacity: 1, duration: .45, ease: "sine.out" }, at + .42);
+      tl.fromTo(`${id} .bottom-caption`, { y: 10, opacity: 0 }, { y: 0, opacity: 1, duration: .4, ease: "sine.out" }, at + .48);
+      tl.fromTo(`${id} .game-screen img`, { scale: 1.01 }, { scale: 1.035, duration: 6.2, ease: "none" }, at);
+    };
+    screenIn("#scene-1", .18);
+    screenIn("#scene-2", 11.18);
+    screenIn("#scene-3", 21.18);
+    screenIn("#scene-4", 31.18);
+    screenIn("#scene-5", 41.18);
+
+    tl.fromTo("#scene-1 .pointer", { x: 230, y: 462 }, { x: 730, y: 510, duration: 1.45, ease: "power2.inOut" }, .8);
+    tl.fromTo("#scene-1 .input-focus", { opacity: 0 }, { opacity: 1, duration: .22 }, 2.15);
+    tl.fromTo("#scene-1 .input-stream", { opacity: 0 }, { opacity: 1, duration: .16 }, 2.35);
+    tl.fromTo("#scene-1 .click-pulse", { x: 730, y: 510, scale: .35, opacity: .9 }, { scale: 1.7, opacity: 0, duration: .48, ease: "power2.out" }, 2.35);
+    tl.to("#scene-1 .input-stream .stream-char", { opacity: 1, duration: .06, stagger: .09, ease: "none" }, 2.52);
+    tl.fromTo("#scene-1 .send-focus", { opacity: 0 }, { opacity: 1, duration: .18 }, 4.0);
+    tl.fromTo("#scene-1 .pointer", { x: 730, y: 510 }, { x: 956, y: 510, duration: .68, ease: "power2.inOut" }, 4.14);
+    tl.fromTo("#scene-1 .click-pulse", { x: 956, y: 510, scale: .35, opacity: .9 }, { scale: 1.7, opacity: 0, duration: .48, ease: "power2.out" }, 4.85);
+    tl.fromTo("#scene-1 .npc-stream", { opacity: 0 }, { opacity: 1, duration: .16 }, 5.1);
+    tl.to("#scene-1 .npc-stream .stream-char", { opacity: 1, duration: .06, stagger: .055, ease: "none" }, 5.2);
+
+    tl.fromTo("#scene-2 .pointer", { x: 160, y: 480 }, { x: 635, y: 270, duration: 1.35, ease: "power2.inOut" }, 11.75);
+    tl.fromTo("#scene-2 .market-focus", { opacity: 0 }, { opacity: 1, duration: .2 }, 13.0);
+    tl.fromTo("#scene-2 .click-pulse", { x: 635, y: 270, scale: .35, opacity: .9 }, { scale: 1.75, opacity: 0, duration: .48, ease: "power2.out" }, 13.2);
+    tl.fromTo("#scene-2 .market-toast", { y: 12, opacity: 0 }, { y: 0, opacity: 1, duration: .35, ease: "power2.out" }, 13.75);
+
+    tl.fromTo("#scene-3 .pointer", { x: 760, y: 520 }, { x: 510, y: 188, duration: 1.25, ease: "power2.inOut" }, 21.85);
+    tl.fromTo("#scene-3 .offer-focus", { opacity: 0 }, { opacity: 1, duration: .2 }, 23.0);
+    tl.fromTo("#scene-3 .click-pulse", { x: 510, y: 188, scale: .35, opacity: .9 }, { scale: 1.75, opacity: 0, duration: .48, ease: "power2.out" }, 23.2);
+    tl.fromTo("#scene-3 .price-tag", { y: 10, opacity: 0 }, { y: 0, opacity: 1, duration: .35, ease: "power2.out" }, 23.75);
+
+    tl.fromTo("#scene-4 .pointer", { x: 180, y: 490 }, { x: 802, y: 435, duration: 1.45, ease: "power2.inOut" }, 31.8);
+    tl.fromTo("#scene-4 .night-focus", { opacity: 0 }, { opacity: 1, duration: .2 }, 33.1);
+    tl.fromTo("#scene-4 .click-pulse", { x: 802, y: 435, scale: .35, opacity: .9 }, { scale: 1.75, opacity: 0, duration: .48, ease: "power2.out" }, 33.3);
+    tl.fromTo("#scene-4 .npc-night-stream", { opacity: 0 }, { opacity: 1, duration: .16 }, 33.7);
+    tl.to("#scene-4 .npc-night-stream .stream-char", { opacity: 1, duration: .08, stagger: .12, ease: "none" }, 33.8);
+
+    tl.fromTo("#scene-5 .pointer", { x: 770, y: 520 }, { x: 340, y: 44, duration: 1.35, ease: "power2.inOut" }, 41.75);
+    tl.fromTo("#scene-5 .notebook-focus", { opacity: 0 }, { opacity: 1, duration: .2 }, 43.0);
+    tl.fromTo("#scene-5 .click-pulse", { x: 340, y: 44, scale: .35, opacity: .9 }, { scale: 1.75, opacity: 0, duration: .48, ease: "power2.out" }, 43.2);
+    tl.fromTo("#scene-5 .notebook-tag", { y: 10, opacity: 0 }, { y: 0, opacity: 1, duration: .35, ease: "power2.out" }, 43.75);
+
+    [10.65, 20.65, 30.65, 40.65].forEach((at, index) => {
+      const selector = `#transition-${index + 1}`;
+      tl.fromTo(selector, { xPercent: -100 }, { xPercent: 0, duration: .28, ease: "power2.inOut" }, at);
+      tl.fromTo(selector, { xPercent: 0 }, { xPercent: 100, duration: .34, ease: "power2.inOut" }, at + .28);
+    });
+    tl.fromTo(".grain", { opacity: .035 }, { opacity: .08, duration: 12, ease: "sine.inOut" }, 0);
+    window.__timelines.main = tl;
+  </script>
+</body>
+</html>

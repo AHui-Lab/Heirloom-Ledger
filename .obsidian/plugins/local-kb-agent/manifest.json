@@ -1,0 +1,11 @@
+{
+    "id": "local-kb-agent",
+    "name": "Local Knowledge Base Agent",
+    "version": "3.2.0",
+    "minAppVersion": "1.4.0",
+    "description": "Self-contained RAG knowledge base agent for Obsidian. Indexes notes, embeds them via OpenAI-compatible/Ollama APIs, and provides AI chat with source citations. No backend service or Python required.",
+    "author": "WorkBuddy",
+    "isDesktopOnly": true,
+    "fundingUrl": "",
+    "keywords": ["knowledge-base", "RAG", "AI", "chat", "embedding", "self-contained"]
+}
