@@ -5,7 +5,7 @@ aliases:
   - 剧情架构总览
 status: draft
 owner: human
-last_reviewed: 2026-09-07
+last_reviewed: 2026-09-15
 tags:
   - story
   - hub
@@ -20,8 +20,17 @@ tags:
 
 ## 快速导航
 
+> [!tip] 当前全篇方案：《万灯归舟》（2026-09-15）
+> 用户要求提高核心藏品价值、采用虚构南迁故事并完整连接人物与任务。当前依次阅读 [[WANDENG_STORY]] → [[WANDENG_CHARACTERS]] → [[WANDENG_QUESTS]] → [[WANDENG_PRODUCTION_PLAN]]。已写完六章故事、24 个主线、12 个支线与四种主结局。旧茶罐方案退居备选，旧第一章页面仅记录原型既有版本，二者都不作为新版剧情真相来源。
+
 | 文档 | 用途 | 当前状态 |
 |---|---|---|
+| [[WANDENG_STORY]] | 原创重要长卷、完整真相、六章故事与结局 | 当前全篇草案 |
+| [[WANDENG_CHARACTERS]] | 十一名 NPC、关系图、独立诉求与知情边界 | 当前人物草案 |
+| [[WANDENG_QUESTS]] | 24 主线、12 支线、依赖图、证据路线与关键分支 | 当前任务规划 |
+| [[WANDENG_PRODUCTION_PLAN]] | 审阅路径、路线审计、制作拆分与旧版迁移 | 当前制作规划 |
+| [[STORY_REBUILD_PROPOSAL]] | 旧茶罐提案，保留以供追溯 | 已退居备选 |
+| [[HISTORICAL_STORY_RESEARCH]] | 五组历史素材、公开来源、原创转化与年代检查 | Research / 非游戏事实 |
 | [[STORY_BIBLE]] | 核心母题、叙事原则、事实层级与创作红线 | Draft Framework |
 | [[MASTER_STORY_ARC]] | 长线成长轴、篇章功能与后续章槽位 | Draft Proposal |
 | [[QUEST_ARCHITECTURE]] | 主线、人物线、委托、器物线与后果线的统一结构 | Draft Proposal |
@@ -41,6 +50,8 @@ tags:
 - **Open Question**：信息不足；必须保留问题，不得用台词或实现偷偷定案。
 
 ## 已确认的故事地基
+
+以下描述既有版本地基，不将旧第一章的具体物件与节点强制带入当前重构。新方案在全篇内部采用确定真相，正式锁定与实现另行推进。
 
 1. 主要舞台是尚未正式命名的 `X City`。
 2. 玩家离开大城市、回乡接手爷爷留下的古玩店；裁员是返乡的现实导火索。
@@ -94,7 +105,8 @@ Human Designer 确认主题/边界
 
 ## 当前审阅重点
 
+- 本轮优先审阅 [[WANDENG_STORY]] 的核心冲突与完整结尾，再用 [[WANDENG_QUESTS]] 检查每条人物线如何进入主线并留下后果。
 - 先确认 [[STORY_BIBLE]] 的母题与叙事承诺是否符合你想要的整部作品气质。
-- 再确认 [[MASTER_STORY_ARC]] 的篇章功能是否合理；其中除第一章外均是槽位，不是已定剧情。
+- [[MASTER_STORY_ARC]] 保留为早期功能框架；当前具体篇章以 [[WANDENG_STORY]] 为审阅依据。
 - 以 [[CH01_OLD_DEBTS]] 检验 [[QUEST_ARCHITECTURE]] 是否足以承载现有内容。
 - 所有未决定事项集中进入 [[STORY_OPEN_QUESTIONS]]，避免散落在对白或原型数据里。

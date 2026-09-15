@@ -152,7 +152,7 @@
       "prior": 52,
       "ask": 1240,
       "minimum": 760,
-      "description": "旧端砚，可拿到台面查看。来源与断代均须结合现有证据。",
+      "description": "长方端石砚，砚堂可见使用磨痕，边角与砚背需要近看；来源和年代尚待核实。",
       "custody": false
     },
     {
@@ -183,7 +183,7 @@
       "prior": 57,
       "ask": 1850,
       "minimum": 1130,
-      "description": "山水小品，可拿到台面查看。来源与断代均须结合现有证据。",
+      "description": "小幅水墨山水，纸本设色，画心、装裱和落款可分别查看；来源和年代尚待核实。",
       "custody": true
     },
     {
@@ -214,7 +214,7 @@
       "prior": 62,
       "ask": 960,
       "minimum": 470,
-      "description": "铜胎画珐琅鼻烟壶，可拿到台面查看。来源与断代均须结合现有证据。",
+      "description": "铜胎画珐琅鼻烟壶，器身绘花卉，口沿、底款与珐琅表面可供近看。",
       "custody": false
     },
     {
@@ -245,7 +245,7 @@
       "prior": 67,
       "ask": 800,
       "minimum": 490,
-      "description": "竹刻笔筒，可拿到台面查看。来源与断代均须结合现有证据。",
+      "description": "竹制笔筒，外壁有刻纹与自然色差，刀口、包浆和底部是主要观察位置。",
       "custody": false
     },
     {
@@ -276,7 +276,7 @@
       "prior": 52,
       "ask": 1800,
       "minimum": 650,
-      "description": "青花折枝花纹碗，可拿到台面查看。来源与断代均须结合现有证据。",
+      "description": "青花折枝花纹碗，敞口圈足，内外绘折枝花；釉面、胎足和口沿可供查看。",
       "custody": false
     },
     {
@@ -307,7 +307,7 @@
       "prior": 57,
       "ask": 650,
       "minimum": 420,
-      "description": "竹纹锡茶叶罐，可拿到台面查看。来源与断代均须结合现有证据。",
+      "description": "锡制茶叶罐，器身饰竹纹，盖口、接缝与表面氧化痕迹清晰可见。",
       "custody": false
     },
     {
@@ -338,7 +338,7 @@
       "prior": 62,
       "ask": 880,
       "minimum": 540,
-      "description": "仿哥釉小碟，可拿到台面查看。来源与断代均须结合现有证据。",
+      "description": "小型开片釉碟，釉色偏灰青；开片、圈足和口沿磨损需要结合观察。",
       "custody": false
     },
     {
@@ -369,7 +369,7 @@
       "prior": 67,
       "ask": 810,
       "minimum": 400,
-      "description": "狮钮印石，可拿到台面查看。来源与断代均须结合现有证据。",
+      "description": "方形印石配狮钮，钮部雕刻、石质纹理与印面均可分别查看。",
       "custody": false
     },
     {
@@ -400,7 +400,7 @@
       "prior": 52,
       "ask": 440,
       "minimum": 270,
-      "description": "茶庄流水账，可拿到台面查看。来源与断代均须结合现有证据。",
+      "description": "线装茶庄流水账，纸页有翻阅和受潮痕迹，日期、笔迹与装订可供核对。",
       "custody": false
     },
     {
@@ -431,7 +431,7 @@
       "prior": 57,
       "ask": 1010,
       "minimum": 610,
-      "description": "白釉盖碗，可拿到台面查看。来源与断代均须结合现有证据。",
+      "description": "白釉盖碗由盖、碗、托组成，釉色、口沿磕碰和各件匹配程度可供观察。",
       "custody": false
     },
     {
@@ -462,7 +462,7 @@
       "prior": 62,
       "ask": 1210,
       "minimum": 740,
-      "description": "山水折扇，可拿到台面查看。来源与断代均须结合现有证据。",
+      "description": "纸本山水折扇，扇面有折痕，扇骨、画意与款识需分开判断。",
       "custody": false
     },
     {
@@ -493,7 +493,7 @@
       "prior": 67,
       "ask": 1300,
       "minimum": 630,
-      "description": "兽耳小铜炉，可拿到台面查看。来源与断代均须结合现有证据。",
+      "description": "小型铜炉配双兽耳，器壁、炉底和表面色泽可供近看。",
       "custody": false
     },
     {
@@ -524,7 +524,7 @@
       "prior": 52,
       "ask": 710,
       "minimum": 440,
-      "description": "素面小茶壶，可拿到台面查看。来源与断代均须结合现有证据。",
+      "description": "素面小茶壶，壶身少饰，流、把、盖口与底部接合处可供观察。",
       "custody": false
     },
     {
@@ -555,7 +555,7 @@
       "prior": 57,
       "ask": 1470,
       "minimum": 900,
-      "description": "行书小条幅，可拿到台面查看。来源与断代均须结合现有证据。",
+      "description": "窄幅行书纸本，墨色、行气、落款和装裱状态需要分别核对。",
       "custody": false
     },
     {
@@ -586,7 +586,7 @@
       "prior": 62,
       "ask": 1110,
       "minimum": 540,
-      "description": "青花小瓶，可拿到台面查看。来源与断代均须结合现有证据。",
+      "description": "小型青花瓶，器身绘纹饰；口沿、腹部画工与圈足可供查看。",
       "custody": false
     },
     {
@@ -617,7 +617,7 @@
       "prior": 67,
       "ask": 380,
       "minimum": 230,
-      "description": "竹茶则，可拿到台面查看。来源与断代均须结合现有证据。",
+      "description": "竹制茶则，器形狭长，表面纹理、边缘磨耗和握持痕迹可供查看。",
       "custody": false
     },
     {
@@ -648,7 +648,7 @@
       "prior": 52,
       "ask": 760,
       "minimum": 460,
-      "description": "木雕书挡，可拿到台面查看。来源与断代均须结合现有证据。",
+      "description": "成对木雕书挡，雕纹、木质、底面磨耗与两件一致性可供核对。",
       "custody": false
     },
     {
@@ -679,7 +679,7 @@
       "prior": 57,
       "ask": 920,
       "minimum": 560,
-      "description": "朱漆小盒，可拿到台面查看。来源与断代均须结合现有证据。",
+      "description": "朱漆小盒，盒盖与盒身可分开查看，漆面磨损、接缝和内里清晰可见。",
       "custody": false
     },
     {
@@ -710,7 +710,7 @@
       "prior": 62,
       "ask": 480,
       "minimum": 290,
-      "description": "旧天平，可拿到台面查看。来源与断代均须结合现有证据。",
+      "description": "小型旧天平，横梁、秤盘和配件均有使用痕迹，完整程度可直接核对。",
       "custody": false
     },
     {
@@ -741,7 +741,7 @@
       "prior": 67,
       "ask": 1110,
       "minimum": 680,
-      "description": "青花花卉盘，可拿到台面查看。来源与断代均须结合现有证据。",
+      "description": "青花花卉纹盘，盘心绘花卉，边沿、釉面与圈足是主要观察位置。",
       "custody": false
     },
     {
@@ -772,7 +772,7 @@
       "prior": 52,
       "ask": 670,
       "minimum": 320,
-      "description": "青釉水滴，可拿到台面查看。来源与断代均须结合现有证据。",
+      "description": "小型青釉水滴，出水口、釉面和底足可供近看，器形用途明确。",
       "custody": false
     },
     {
@@ -803,7 +803,7 @@
       "prior": 57,
       "ask": 400,
       "minimum": 240,
-      "description": "锦面卷轴盒，可拿到台面查看。来源与断代均须结合现有证据。",
+      "description": "长形卷轴盒，外覆锦面，盒口、包角和内衬的保存状态可供查看。",
       "custody": false
     },
     {
@@ -834,7 +834,7 @@
       "prior": 62,
       "ask": 650,
       "minimum": 400,
-      "description": "赭釉储茶罐，可拿到台面查看。来源与断代均须结合现有证据。",
+      "description": "赭色釉储茶罐，器腹饱满，盖口、釉面与底部磨耗可供观察。",
       "custody": false
     },
     {
@@ -865,7 +865,7 @@
       "prior": 67,
       "ask": 570,
       "minimum": 350,
-      "description": "木托盘与旧收据，可拿到台面查看。来源与断代均须结合现有证据。",
+      "description": "木托盘连同一张旧收据，木面使用痕迹与纸面文字需要分开核对。",
       "custody": false
     },
     {
@@ -896,7 +896,7 @@
       "prior": 52,
       "ask": 570,
       "minimum": 350,
-      "description": "市集青花碗，可拿到台面查看。来源与断代均须结合现有证据。",
+      "description": "市集所见青花碗，纹饰、釉面、胎足与口沿状态都可当面查看。",
       "custody": false
     },
     {
@@ -927,7 +927,7 @@
       "prior": 57,
       "ask": 440,
       "minimum": 220,
-      "description": "市集闲章，可拿到台面查看。来源与断代均须结合现有证据。",
+      "description": "市集所见闲章，钮式、石质、边角与印面均可当面查看。",
       "custody": false
     },
     {
@@ -958,7 +958,7 @@
       "prior": 62,
       "ask": 1790,
       "minimum": 1090,
-      "description": "小拍扇面，可拿到台面查看。来源与断代均须结合现有证据。",
+      "description": "小拍预展中的扇面，折痕、纸墨、扇骨与款识可在预展灯下查看。",
       "custody": false
     },
     {
@@ -989,7 +989,7 @@
       "prior": 67,
       "ask": 1040,
       "minimum": 500,
-      "description": "小拍青花瓶，可拿到台面查看。来源与断代均须结合现有证据。",
+      "description": "小拍预展中的青花瓶，器形、发色、画工和圈足可在预展中核对。",
       "custody": false
     }
   ],

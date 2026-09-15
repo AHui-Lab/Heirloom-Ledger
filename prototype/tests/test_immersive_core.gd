@@ -44,11 +44,16 @@ func _init() -> void:
 	world.enter_merchant("qingshan")
 	check(world.merchant_stock("qingshan").size() == after, "Reentry does not refresh stock")
 	check(world.dialogue_context().contains("修补情况"), "Merchant remembers prior utterance on revisit")
+	var old_meeting_key := world.active_meeting_key()
 	world.save_game("user://test_immersive_save.json")
 	var loaded = World.new()
 	check(loaded.load_game("user://test_immersive_save.json") == OK, "Reload world with market stock")
 	check(loaded.money == world.money and loaded.merchant_stock("qingshan").size() == after, "Stock and money consistent after reload")
 	check(loaded.dialogue_context().contains("修补情况"), "Conversation memory survives reload")
+	loaded.day += 1
+	check(not loaded.dialogue_context().contains("修补情况"), "Raw dialogue from an earlier meeting cannot leak into a new day")
+	loaded.day -= 1
+	check(loaded.active_meeting_key() == old_meeting_key, "Meeting identity remains deterministic across save/load")
 	world.travel("shop")
 	world.phase = "closing"
 	world.flags["ledger"] = true
@@ -64,16 +69,25 @@ func _init() -> void:
 	check(world.investigation_rows().size() >= 3, "Evidence creates next visible investigation questions")
 	world.reset()
 	world.next_guest()
+	check(world.trade_role_contract(world.current_guest, "offer").contains("掌柜是买方"), "Seller contract fixes money and property direction")
 	world.reveal_opening()
 	world.dispatch("decline")
 	world.next_guest()
+	check(world.trade_role_contract(world.current_guest, "offer").contains("掌柜是卖方") or world.trade_role_contract(world.current_guest, "offer").contains("掌柜是店主"), "Buyer contract keeps the player as shop owner")
 	world.reveal_opening()
 	world.dispatch("need")
 	world.select_item("inkstone")
+	var opening_before := world.recommendation_opening(world.get_inventory_item("inkstone"))
 	world.dispatch("recommend")
+	world.dispatch("appraise_inventory")
+	var opening_after := world.recommendation_opening(world.get_inventory_item("inkstone"))
+	check(opening_before != opening_after, "Buyer introduction refreshes when the player's current judgement changes")
+	check(not opening_after.contains("%"), "Buyer introduction translates private probability into natural uncertainty")
 	world.current_guest["last_question"] = "这件东西的修补和品相怎么说？"
 	var drafts: Array = world.contextual_answers()
 	check(drafts.size() == 3 and str(drafts[2]).contains("修"), "Condition question yields condition-oriented answers")
+	for draft in drafts:
+		check(not str(draft).contains("%"), "Buyer-facing suggestions keep private appraisal probability private")
 	world.current_guest["last_question"] = "来历有记录吗？"
 	check(str(world.contextual_answers()[0]).contains("记录"), "Source question yields source-oriented answer")
 	var story_prompt_data: Dictionary = world.revision_content.get("story_prompts", {})

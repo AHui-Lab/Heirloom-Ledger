@@ -593,7 +593,8 @@ func _item_modal(item: Dictionary) -> void:
 			_modal_button("拿到柜台，向客人推荐", func():
 				chapter.select_item(id)
 				modal.hide()
-				_perform_action("recommend", {}, "您看看这件《%s》。" % item["title"]), true)
+				var opening := str(chapter.call("recommendation_opening", item)) if chapter.has_method("recommendation_opening") else "我这里有一件《%s》，您先上手看看。" % item["title"]
+				_perform_action("recommend", {}, opening), true)
 
 func _knowledge_modal() -> void:
 	_open_modal("笔记 · 判断是怎样形成的")

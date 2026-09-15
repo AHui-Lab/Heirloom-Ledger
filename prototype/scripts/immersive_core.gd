@@ -67,14 +67,23 @@ func _build_market() -> void:
 		var target := daily_rng.randi_range(5, 8)
 		var candidates: Array = []
 		var side_items: Array = []
+		var used_art: Dictionary = {}
+		for stocked in stock:
+			if stocked.get("location", "unseen") == "unseen": used_art[int(stocked.get("art", -1))] = true
 		for item in content["items"]:
-			if item["category"] == source["category"] and not item.get("custody", false): candidates.append(item)
-			elif not item.get("custody", false): side_items.append(item)
-		var pick_offset := daily_rng.randi_range(0, candidates.size() - 1)
+			if item.get("custody", false) or used_art.has(int(item.get("art", -1))): continue
+			if item["category"] == source["category"]: candidates.append(item)
+			else: side_items.append(item)
 		for index in range(maxi(0, target - available)):
-			var template: Dictionary = candidates[(pick_offset + index) % candidates.size()]
-			if index % 4 == 3 and not side_items.is_empty():
-				template = side_items[daily_rng.randi_range(0, side_items.size() - 1)]
+			# A stall may carry side categories, but never shows two cards with the
+			# same title/art in one day's stock. This keeps the market legible until
+			# independent object art is available for every future procedural item.
+			var pool: Array = candidates if not candidates.is_empty() and index % 4 != 3 else side_items
+			if pool.is_empty(): pool = candidates if not candidates.is_empty() else side_items
+			if pool.is_empty(): break
+			var template_index := daily_rng.randi_range(0, pool.size() - 1)
+			var template: Dictionary = pool.pop_at(template_index)
+			used_art[int(template.get("art", -1))] = true
 			var item := template.duplicate(true)
 			item["id"] = "%s_%d_%d" % [id, day, stock.size()]
 			item["title"] = template["title"].trim_prefix("市集")
@@ -370,12 +379,19 @@ func active_item() -> Dictionary:
 	if actor.get("role") == "seller": return actor.get("item", {})
 	return get_inventory_item(str(actor.get("recommended_item_id", selected_item_id)))
 
+func active_meeting_key(actor: Dictionary = {}) -> String:
+	var subject := actor if not actor.is_empty() else active_actor()
+	if subject.is_empty(): return ""
+	if not visit.is_empty():
+		return "%d:%s:%s" % [day, location, str(subject.get("id", ""))]
+	return "%d:shop:%d:%s:%s" % [day, current_index, str(subject.get("id", "")), str(subject.get("role", ""))]
+
 func remember_line(role: String, text: String) -> void:
 	var actor := active_actor()
 	if actor.is_empty() or role not in ["player", "npc"]: return
 	var id := str(actor["id"])
 	if not dialogue_memory.has(id): dialogue_memory[id] = []
-	dialogue_memory[id].append({"day": day, "location": location, "role": role, "text": text, "item_id": str(active_item().get("id", ""))})
+	dialogue_memory[id].append({"day": day, "location": location, "role": role, "text": text, "item_id": str(active_item().get("id", "")), "meeting_key": active_meeting_key(actor), "encounter_role": str(actor.get("role", ""))})
 	if role == "npc" and (text.contains("？") or text.contains("?")):
 		actor["last_question"] = text
 
@@ -415,24 +431,70 @@ func contextual_answers() -> Array[String]:
 		var answer := "我手上的记录是“%s”。再早的来历，我还没有核实。" % source if not source.is_empty() else "这件的来历我还没有核实，不能给您编一个传承故事。"
 		return [answer, "您最想确认的是从哪里收来的，还是以前谁用过？我按已有记录给您找。", "这部分凭据还不齐，您可以先不急着决定。"]
 	if _contains_any(question, ["品相", "修", "磕", "缺", "伤"]):
-		return ["我目前看到的是：%s。没看清的部位，还得再核对。" % ("；".join(clues) if not clues.is_empty() else "还没有完整检查记录"), "您在意哪一处？我把那一面拿近些，我们一起看。", "我不能保证它从没修过，现有记录没有把这件事说清。"]
+		var condition_reply := "我还没有把各处都看完整，没看清的地方不能先替它保证。"
+		if not clues.is_empty(): condition_reply = "我上手时留意到%s，其他部位还得再核对。" % str(clues[0])
+		return [condition_reply, "您在意哪一处？我把那一面拿近些，我们一起看。", "我不能保证它从没修过，现有记录没有把这件事说清。"]
 	var assessment := "我还没有完成这件的判断，不急着给您下结论。"
 	if item["appraised"]:
-		assessment = "我发现了与原说法矛盾的关键痕迹，所以不再按真品介绍。" if item["judged_fake"] else "我的把握大约是%d%%，依据是%s；这还不是保证。" % [int(item["probability"]), "；".join(clues)]
-	return [assessment, "我可以把已经看到的线索逐项讲清，没依据的部分先留着。", "您更关心年代、品相还是来源？我分别说，不混在一起保证。"]
+		assessment = "我发现了和原说法对不上的痕迹，所以这件我不会再按真品向您介绍。" if item["judged_fake"] else "我看着有些地方是对的，不过年代和来历还不能只凭这些就说死。"
+	return [assessment, "我可以把已经看到的地方一项项讲给您听，没依据的部分先留着。", "您更关心年代、品相还是来源？咱们分开说，免得混在一起。"]
 
-func dialogue_context() -> String:
+func recommendation_opening(item: Dictionary) -> String:
+	if item.is_empty(): return "我先从货架上挑一件合适的给您看看。"
+	var actor := active_actor()
+	var title := str(item.get("title", "这件东西"))
+	var category := str(item.get("category", "旧物"))
+	var prefix := "这是一件《%s》，类别是%s。" % [title, category]
+	if not actor.is_empty() and actor.get("revealed", {}).has("need"):
+		prefix = "您刚才说想看看%s，我这里有一件《%s》。" % [str(actor.get("need", {}).get("category", category)), title]
+	if not item.get("appraised", false):
+		return prefix + "类别可以确定，不过我还没有重新细看品相和年代，您可以先上手。"
+	if item.get("judged_fake", false):
+		return prefix + "我重新看过以后，发现有几处和原来的说法对不上，所以不能按真品给您介绍。您若愿意，我把看到的问题讲清楚。"
+	var probability := int(item.get("probability", 50))
+	var assessment := "我重新看过，有些地方能够对得上，但还有几处拿不准，不能把话说满。"
+	if probability >= 75:
+		assessment = "我重新看过，整体有不少地方比较顺，不过具体年代和来历还不能只凭这些就说死。"
+	elif probability < 45:
+		assessment = "我重新看过以后还有些疑问，目前只能把已经看见的地方如实告诉您。"
+	var clues: Array = item.get("revealed_clues", [])
+	if not clues.is_empty(): assessment += "我特别留意到%s。" % str(clues[0])
+	return prefix + assessment
+
+func dialogue_context(opening := false) -> String:
 	var actor := active_actor()
 	if actor.is_empty(): return ""
 	var lines: Array[String] = []
-	for entry in dialogue_memory.get(actor["id"], []).slice(-30):
-		lines.append("第%d日 %s %s：%s" % [int(entry["day"]), entry["location"], "掌柜原话" if entry["role"] == "player" else "你的原话", entry["text"]])
-	lines.append("过往原话是说法记录，不自动等于客观真相。只延续本人的记忆，不访问其他人物私聊。")
+	var meeting_key := active_meeting_key(actor)
+	if not opening:
+		for entry in dialogue_memory.get(actor["id"], []):
+			if str(entry.get("meeting_key", "")) != meeting_key: continue
+			lines.append("%s：%s" % ["掌柜原话" if entry["role"] == "player" else "你的原话", entry["text"]])
+		if not lines.is_empty(): lines.push_front("仅以下内容属于本次会面：")
+	else:
+		lines.append("这是一次新会面。不要把上一次会面的告别、报价或未完成句子当成本次开场白。")
+	lines.append("其他日期的原话不属于当前交易，不得据此沿用旧物件、旧身份或旧报价。人物可以记得下方结构化往来结果，但必须从本次来意重新开口。")
 	var original := current_guest
 	current_guest = actor
 	var public_state := public_dialogue_context()
 	current_guest = original
 	return "\n".join(lines) + "\n" + public_state
+
+func trade_role_contract(actor: Dictionary, action: String) -> String:
+	if actor.is_empty() or str(actor.get("role", "")) == "social": return ""
+	var item := active_item()
+	var title := str(item.get("title", "当前物件"))
+	var role := str(actor.get("role", ""))
+	var contract := "\n【不可违反的交易身份】\n你只扮演%s，不替掌柜说话。掌柜始终是店主。" % str(actor.get("name", "客人"))
+	if role == "seller":
+		contract += "你是卖货客人，《%s》成交前归你；掌柜是买方。成交时掌柜付钱给你，你把物件交给掌柜。绝不能说‘物件归我/我收下物件/钱给掌柜’。" % title
+	else:
+		contract += "你是买货客人，《%s》成交前归掌柜；掌柜是卖方。成交时你付钱给掌柜，你收下物件。绝不能说‘物件归掌柜/掌柜收下物件/掌柜付钱给我’。" % title
+	if action == "offer" and not pending_trade.is_empty():
+		contract += "系统已判定当前价格可以接受，但尚未交割。必须明确接受该价格并等待掌柜确认，不得反悔，也不得说已经付款或拿走物件。"
+	elif action == "confirm_trade":
+		contract += "系统已完成钱货交割。必须按上述方向简短确认成交，不得再次议价。"
+	return contract
 
 func dispatch(action: String, payload: Dictionary = {}) -> Dictionary:
 	var actor := active_actor()

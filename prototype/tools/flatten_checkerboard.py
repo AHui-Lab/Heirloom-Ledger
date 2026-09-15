@@ -51,6 +51,43 @@ def clean_atlas(source: Path, target: Path, columns: int, rows: int) -> None:
     image.save(target)
 
 
+def clean_isolated_layer(source: Path, target: Path, neutral_floor: int = 135) -> None:
+    """Remove a baked neutral checkerboard from an isolated generated asset.
+
+    Unlike atlas cells, large transparent scene layers can contain faint neutral
+    checker squares that are disconnected from the canvas edge.  They must not
+    survive as opaque dust over the game background.  The intended assets use
+    chromatic brown, blue and beige materials, so only near-neutral light pixels
+    are removed globally.
+    """
+    image = Image.open(source).convert("RGBA")
+    pixels = image.load()
+    for y in range(image.height):
+        for x in range(image.width):
+            r, g, b, _ = pixels[x, y]
+            if min(r, g, b) >= neutral_floor and max(r, g, b) - min(r, g, b) <= 14:
+                pixels[x, y] = (r, g, b, 0)
+    target.parent.mkdir(parents=True, exist_ok=True)
+    image.save(target)
+
+
+def normalize_portrait_cell(source: Path, target: Path, column: int, row: int) -> None:
+    """Promote one 4x2 portrait-atlas cell to the standard 1024x1536 canvas."""
+    atlas = Image.open(source).convert("RGBA")
+    cell_width = atlas.width // 4
+    cell_height = atlas.height // 2
+    cell = atlas.crop((column * cell_width, row * cell_height, (column + 1) * cell_width, (row + 1) * cell_height))
+    alpha_bounds = cell.getchannel("A").getbbox()
+    if alpha_bounds is not None:
+        cell = cell.crop(alpha_bounds)
+    scale = min(860 / cell.width, 1120 / cell.height)
+    cell = cell.resize((max(1, round(cell.width * scale)), max(1, round(cell.height * scale))), Image.Resampling.LANCZOS)
+    canvas = Image.new("RGBA", (1024, 1536), (0, 0, 0, 0))
+    canvas.alpha_composite(cell, ((canvas.width - cell.width) // 2, 300))
+    target.parent.mkdir(parents=True, exist_ok=True)
+    canvas.save(target)
+
+
 if __name__ == "__main__":
     root = Path(__file__).resolve().parents[1]
     clean_atlas(root / "assets/portraits-v3.png", root / "assets/portraits-v3-alpha.png", 4, 2)

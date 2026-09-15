@@ -21,6 +21,11 @@ func run() -> void:
 	scene._perform_action("source", {}, "这件东西是怎么来的？")
 	await process_frame
 	await screenshot("immersive_dialogue")
+	scene.chat_toggle.pressed.emit()
+	await process_frame
+	await screenshot("immersive_shop_exploration")
+	scene.chat_toggle.pressed.emit()
+	await process_frame
 	scene.suggestion_toggle.pressed.emit()
 	await process_frame
 	await screenshot("immersive_guidance_popup")
@@ -36,6 +41,32 @@ func run() -> void:
 	scene._perform_action("appraise", {}, "我先看看。")
 	await process_frame
 	await screenshot("immersive_private")
+	scene.world.current_index = 1
+	scene.world.current_guest = scene.world.guests[1]
+	scene.world.current_guest["role_revealed"] = true
+	scene.world.current_guest["revealed"]["need"] = true
+	scene.world.current_guest["revealed"]["budget"] = true
+	scene.world.remember_line("npc", "我想挑一件合适的旧物，先看看您店里有什么。")
+	scene._restore_chat()
+	scene.private_card.hide()
+	scene._refresh_all()
+	await process_frame
+	await screenshot("immersive_buyer_dialogue")
+	scene.chat_toggle.pressed.emit()
+	await process_frame
+	await screenshot("immersive_buyer_exploration")
+	scene.chat_toggle.pressed.emit()
+	root.size = Vector2i(1280, 720)
+	await process_frame
+	await process_frame
+	await screenshot("immersive_buyer_dialogue_1280x720")
+	root.size = Vector2i(1440, 900)
+	await process_frame
+	await process_frame
+	scene._inventory_modal()
+	await process_frame
+	await screenshot("immersive_buyer_inventory")
+	scene.modal.hide()
 	scene.world.phase = "noon"
 	scene.world.current_guest = {}
 	scene._refresh_all()

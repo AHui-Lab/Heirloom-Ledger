@@ -7,6 +7,17 @@ const MARKET = preload("res://assets/market-v3.png")
 const TEAHOUSE = preload("res://assets/teahouse-v3.png")
 const AUCTION_HALL = preload("res://assets/auction-hall-v1.png")
 const OLD_PHOTO = preload("res://assets/old-photo-v3.png")
+const SHOP_BACKGROUND_2D5 = preload("res://assets/2d5/shop-background-v4.png")
+const SHOP_COUNTER_2D5 = preload("res://assets/2d5/shop-counter-foreground-v4-alpha.png")
+const SHOP_DISPLAY_MAT_2D5 = preload("res://assets/2d5/display-mat-v4-alpha.png")
+const PORTRAIT_ZHAO_2D5 = preload("res://assets/2d5/portrait-zhao-v4-alpha.png")
+const PORTRAIT_LIN_2D5 = preload("res://assets/2d5/portrait-lin-v4-alpha.png")
+const PORTRAIT_SUN_2D5 = preload("res://assets/2d5/portrait-sun-v4-alpha.png")
+const PORTRAIT_WU_2D5 = preload("res://assets/2d5/portrait-wu-v4-alpha.png")
+const PORTRAIT_ZHOU_2D5 = preload("res://assets/2d5/portrait-zhou-v4-alpha.png")
+const PORTRAIT_XU_2D5 = preload("res://assets/2d5/portrait-xu-v4-alpha.png")
+const PORTRAIT_HE_2D5 = preload("res://assets/2d5/portrait-he-v4-alpha.png")
+const PORTRAIT_CHEN_2D5 = preload("res://assets/2d5/portrait-chen-v4-alpha.png")
 var world: ImmersiveCore
 var chat_scroll: ScrollContainer
 var chat_cards: VBoxContainer
@@ -51,6 +62,17 @@ var suggestion_visible := false
 var bargaining_visible := false
 var last_topic_status := "尚未执行操作"
 var shop_hotspots: Array = []
+var counter_foreground: Control
+var counter_foreground_art: TextureRect
+var display_mat_art: TextureRect
+var visitor_hotspot: Hotspot
+var table_hotspot: Hotspot
+var pending_action_name := ""
+var pending_item_title := ""
+var last_stage_item_id := ""
+var shop_background_material: ShaderMaterial
+var shop_counter_material: ShaderMaterial
+var shop_parallax := Vector2.ZERO
 
 func _create_chapter_core() -> ChapterCore:
 	world = WorldScript.new()
@@ -85,15 +107,41 @@ func _build_game_view() -> Control:
 	header_phase.get_parent().move_child(continue_button, header_phase.get_index() + 1)
 	stage.custom_minimum_size.x = 720
 	stage.clip_contents = true
-	# Establish explicit scene layers.  Hotspots are interaction geometry, not
-	# foreground artwork; portraits, objects and their captions must always win
-	# the visual stack even when a hotspot polygon crosses them.
+	# The shop is a true layered composition: rear room, visitor, display mat and
+	# item, independent foreground counter, then interaction/UI. External scenes
+	# continue to replace only the rear texture.
+	stage.get_child(0).texture = SHOP_BACKGROUND_2D5
 	stage.get_child(0).z_index = 0
+	var parallax_shader := Shader.new()
+	parallax_shader.code = "shader_type canvas_item;\nuniform vec2 uv_offset = vec2(0.0);\nvoid fragment() { COLOR = texture(TEXTURE, clamp(UV + uv_offset, vec2(0.002), vec2(0.998))); }"
+	shop_background_material = ShaderMaterial.new()
+	shop_background_material.shader = parallax_shader
+	stage.get_child(0).material = shop_background_material
 	stage.get_child(1).z_index = 1
+	counter_foreground_art = TextureRect.new()
+	counter_foreground_art.texture = SHOP_COUNTER_2D5
+	counter_foreground_art.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+	counter_foreground_art.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_COVERED
+	counter_foreground_art.mouse_filter = MOUSE_FILTER_IGNORE
+	counter_foreground_art.z_index = 12
+	shop_counter_material = ShaderMaterial.new()
+	shop_counter_material.shader = parallax_shader
+	counter_foreground_art.material = shop_counter_material
+	counter_foreground_art.set_anchors_and_offsets_preset(PRESET_FULL_RECT)
+	stage.add_child(counter_foreground_art)
+	counter_foreground = counter_foreground_art
+	display_mat_art = TextureRect.new()
+	display_mat_art.texture = SHOP_DISPLAY_MAT_2D5
+	display_mat_art.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+	display_mat_art.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+	display_mat_art.mouse_filter = MOUSE_FILTER_IGNORE
+	display_mat_art.z_index = 13
+	_place(display_mat_art, stage, Rect2(0.56, 0.68, 0.34, 0.11))
 	portrait_art.z_index = 10
-	object_art.z_index = 10
-	character_caption.z_index = 11
-	object_caption.z_index = 11
+	object_art.z_index = 14
+	character_caption.z_index = 18
+	object_caption.z_index = 18
+	character_caption.add_theme_stylebox_override("normal", _panel_style(Color("#21170dcc"), Color("#80663c66"), 0, 3))
 	conversation_panel = columns.get_child(1)
 	conversation_panel.custom_minimum_size.x = 430
 	# A single corner gear replaces the toolbar. Story/inventory navigation lives in the scene.
@@ -115,9 +163,24 @@ func _build_game_view() -> Control:
 	]
 	# A single tray-sized region on the counter replaces the old oversized block
 	# that swallowed the visitor and the ledger.
-	var table := _make_scene_hotspot("台面托盘 · 查看当前物件", Rect2(0.55, 0.63, 0.42, 0.27), func(): _item_modal(_active_item()))
-	table.set_meta("shop_only", true)
-	shop_hotspots.append(table)
+	table_hotspot = _make_scene_hotspot("查看当前物件", Rect2(0.56, 0.51, 0.30, 0.27), func(): _item_modal(_active_item()), false)
+	table_hotspot.set_meta("shop_only", true)
+	table_hotspot.set_meta("item_access", true)
+	table_hotspot.mouse_entered.connect(func():
+		if motion_enabled and display_mat_art != null and display_mat_art.visible:
+			create_tween().tween_property(display_mat_art, "modulate", Color(1.12, 1.08, 0.94, 1.0), 0.12))
+	table_hotspot.mouse_exited.connect(func():
+		if display_mat_art != null:
+			create_tween().tween_property(display_mat_art, "modulate", Color.WHITE, 0.14))
+	shop_hotspots.append(table_hotspot)
+	visitor_hotspot = _make_scene_hotspot("当前客人 · 继续交谈", Rect2(0.18, 0.31, 0.28, 0.55), func():
+		dialogue_collapsed = false
+		_apply_dialogue_visibility())
+	visitor_hotspot.set_meta("shop_only", true)
+	visitor_hotspot.set_meta("visitor_only", true)
+	visitor_hotspot.z_index = 13
+	visitor_hotspot.draw_frame = false
+	shop_hotspots.append(visitor_hotspot)
 	# Hotspot frames sit on the lowest layer, right above the background wash, so
 	# their outlines never cross the visitor's portrait, captions or counter item.
 	var layer := 2
@@ -126,11 +189,13 @@ func _build_game_view() -> Control:
 		hotspot.draw_frame = false
 		stage.move_child(hotspot, layer)
 		layer += 1
-	_shop_scene_marker("库存", Rect2(.25, .09, .09, .05), _inventory_modal)
-	_shop_scene_marker("出门", Rect2(.86, .10, .09, .05), _travel_scene)
-	_shop_scene_marker("账本", Rect2(.10, .78, .10, .05), _ledger_modal)
-	_shop_scene_marker("笔记", Rect2(.86, .79, .09, .05), _notebook_modal)
+	visitor_hotspot.z_index = 13
+	_shop_scene_marker("货架", "inventory", Rect2(.035, .31, .085, .05), _inventory_modal)
+	_shop_scene_marker("出门", "door", Rect2(.875, .28, .08, .05), _travel_scene)
+	_shop_scene_marker("账本", "ledger", Rect2(.075, .705, .085, .05), _ledger_modal)
+	_shop_scene_marker("笔记", "notebook", Rect2(.875, .705, .08, .05), _notebook_modal)
 	chat_toggle = _make_button("‹ 收起交谈", false)
+	chat_toggle.z_index = 15
 	chat_toggle.custom_minimum_size = Vector2(150, 38)
 	chat_toggle.pressed.connect(_toggle_dialogue_panel)
 	_place(chat_toggle, stage, Rect2(0.78, 0.035, 0.20, 0.065))
@@ -327,11 +392,13 @@ func _build_game_view() -> Control:
 	scene_hint_popup.hide()
 	return view
 
-func _shop_scene_marker(words: String, rect: Rect2, callback: Callable) -> void:
+func _shop_scene_marker(words: String, marker_key: String, rect: Rect2, callback: Callable) -> void:
 	var marker := _make_button(words, false)
 	marker.set_meta("shop_only", true)
-	marker.z_index = 3
+	marker.set_meta("marker_key", marker_key)
+	marker.z_index = 14
 	marker.add_theme_font_size_override("font_size", 14)
+	marker.tooltip_text = {"inventory": "查看店内库存", "door": "推门出发", "ledger": "查看交易账本", "notebook": "翻阅随身笔记"}.get(marker_key, words)
 	marker.pressed.connect(callback)
 	_place(marker, stage, rect)
 
@@ -381,6 +448,82 @@ func _popup_near(popup: PopupPanel, anchor: Control, requested_size: Vector2i, a
 	var y := anchor_pos.y - height - 6 if above else anchor_pos.y + int(anchor.size.y) + 6
 	y = clampi(y, 12, maxi(12, viewport_size.y - height - 12))
 	popup.popup(Rect2i(x, y, width, height))
+
+func _public_recommendation_score(item: Dictionary, actor: Dictionary) -> int:
+	var score := 0
+	var revealed: Dictionary = actor.get("revealed", {})
+	var need: Dictionary = actor.get("need", {})
+	if revealed.has("need") and str(item.get("category", "")) == str(need.get("category", "")): score += 4
+	if revealed.has("budget"):
+		var ceiling := world._extract_number(str(need.get("public_budget", "")))
+		if ceiling > 0 and int(item.get("estimated_low", item.get("cost", 0))) <= ceiling: score += 2
+	if item.get("appraised", false): score += 1
+	return score
+
+func _inventory_modal() -> void:
+	var actor := world.active_actor()
+	var choosing_for_buyer: bool = not actor.is_empty() and str(actor.get("role", "")) == "buyer" and not bool(actor.get("completed", false))
+	var modal_title := "为%s挑一件" % str(actor.get("name", "客人")) if choosing_for_buyer else "货架 · 已有物件"
+	_open_modal("")
+	var modal_heading := Label.new()
+	modal_heading.text = modal_title
+	modal_heading.add_theme_font_size_override("font_size", 22)
+	modal_heading.add_theme_color_override("font_color", GOLD_LIGHT)
+	modal_body.add_child(modal_heading)
+	for child in modal.find_children("*", "ScrollContainer", true, false):
+		if child is ScrollContainer:
+			child.custom_minimum_size.y = 350
+			break
+	modal.popup_centered(Vector2i(760, 450))
+	if world.inventory.is_empty():
+		_paragraph("货架暂时空了。可以继续接待、查看古玩街，或等待新的收货机会。")
+		return
+	if choosing_for_buyer:
+		_paragraph("这里只按客人已经说出的类别和价位整理；没有问出来的需求不会提前泄露。选择后可先看详情，再决定是否拿给客人。", 14)
+	else:
+		_paragraph("点击器物查看已有记录、私人判断和交易状态。", 14)
+	var display_items: Array = world.inventory.duplicate()
+	if choosing_for_buyer:
+		display_items.sort_custom(func(a, b): return _public_recommendation_score(a, actor) > _public_recommendation_score(b, actor))
+	var grid := GridContainer.new()
+	grid.columns = 2
+	grid.size_flags_horizontal = SIZE_EXPAND_FILL
+	grid.add_theme_constant_override("h_separation", 10)
+	grid.add_theme_constant_override("v_separation", 10)
+	modal_body.add_child(grid)
+	for item in display_items:
+		var id := str(item["id"])
+		var notes: Array[String] = [str(item.get("category", "未分类"))]
+		if item.get("custody", false):
+			notes.append("暂存待核，不可出售")
+		elif item.get("appraised", false):
+			notes.append("已有私人判断")
+		else:
+			notes.append("尚未形成判断")
+		if choosing_for_buyer:
+			var revealed: Dictionary = actor.get("revealed", {})
+			var need: Dictionary = actor.get("need", {})
+			if revealed.has("need") and str(item.get("category", "")) == str(need.get("category", "")):
+				notes.append("符合已公开类别")
+			elif revealed.has("need"):
+				notes.append("类别不完全相符，仍可推介")
+		var card := Button.new()
+		card.text = "%s\n%s" % [str(item["title"]), " · ".join(notes)]
+		card.icon = _atlas(OBJECTS, int(item["art"]), 6, 4)
+		card.expand_icon = true
+		card.icon_alignment = HORIZONTAL_ALIGNMENT_LEFT
+		card.alignment = HORIZONTAL_ALIGNMENT_LEFT
+		card.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+		card.custom_minimum_size = Vector2(330, 105)
+		card.add_theme_font_size_override("font_size", 14)
+		card.add_theme_constant_override("icon_max_width", 82)
+		card.add_theme_stylebox_override("normal", _panel_style(Color("#292720e8"), Color("#625741"), 1, 7))
+		card.add_theme_stylebox_override("hover", _panel_style(Color("#373329f2"), GOLD_LIGHT, 2, 7))
+		card.pressed.connect(func():
+			world.select_item(id)
+			_refresh_all()
+			_item_modal(world.get_inventory_item(id)))
+		grid.add_child(card)
 
 func _item_modal(item: Dictionary) -> void:
 	_clear_judgment_unread(item)
@@ -535,6 +678,7 @@ func _start_next_guest() -> void:
 	bargaining_visible = false
 	history_visible = true
 	last_topic_status = "等待客人说明来意"
+	pending_action_name = "opening"
 	private_card.hide()
 	if meeting_panel != null: meeting_panel.hide()
 	if suggestion_panel != null: suggestion_panel.hide()
@@ -546,7 +690,8 @@ func _start_next_guest() -> void:
 func _active_item() -> Dictionary:
 	return world.active_item() if world != null else {}
 
-func _process(_delta: float) -> void:
+func _process(delta: float) -> void:
+	_update_shop_parallax(delta)
 	if scene_hint_popup == null or not scene_hint_popup.visible or stage == null:
 		return
 	var cursor := stage.get_local_mouse_position() + Vector2(16, 16)
@@ -554,21 +699,35 @@ func _process(_delta: float) -> void:
 	var max_y := maxf(8.0, stage.size.y - scene_hint_popup.size.y - 8.0)
 	scene_hint_popup.position = Vector2(clampf(cursor.x, 8.0, max_x), clampf(cursor.y, 8.0, max_y))
 
-func _make_scene_hotspot(label: String, rect: Rect2, callback: Callable) -> Hotspot:
+func _update_shop_parallax(delta: float) -> void:
+	if stage == null or shop_background_material == null or shop_counter_material == null:
+		return
+	var target := Vector2.ZERO
+	if motion_enabled and world != null and world.location == "shop" and stage.size.x > 0.0 and stage.size.y > 0.0:
+		var normalized := stage.get_local_mouse_position() / stage.size
+		target = Vector2(clampf(normalized.x * 2.0 - 1.0, -1.0, 1.0), clampf(normalized.y * 2.0 - 1.0, -1.0, 1.0))
+	shop_parallax = shop_parallax.lerp(target, clampf(delta * 4.0, 0.0, 1.0))
+	# At 1440×900 these UV offsets remain below three pixels. The rear room and
+	# foreground counter drift at different rates without moving hitboxes.
+	shop_background_material.set_shader_parameter("uv_offset", shop_parallax * 0.0015)
+	shop_counter_material.set_shader_parameter("uv_offset", shop_parallax * -0.0008)
+
+func _make_scene_hotspot(label: String, rect: Rect2, callback: Callable, floating_hint := true) -> Hotspot:
 	var hotspot := Hotspot.new()
-	hotspot.tooltip_text = label
-	hotspot.mouse_entered.connect(func():
-		var lines: Array[String] = []
-		for paragraph in label.split("\n"):
-			for start in range(0, maxi(1, paragraph.length()), 26):
-				lines.append(paragraph.substr(start, 26))
-		scene_hint_label.text = "\n".join(lines)
-		scene_hint_label.custom_minimum_size = Vector2.ZERO
-		scene_hint_label.autowrap_mode = TextServer.AUTOWRAP_OFF
-		scene_hint_popup.reset_size()
-		scene_hint_popup.show()
-		scene_hint_popup.call_deferred("reset_size"))
-	hotspot.mouse_exited.connect(func(): scene_hint_popup.hide())
+	if floating_hint:
+		hotspot.tooltip_text = label
+		hotspot.mouse_entered.connect(func():
+			var lines: Array[String] = []
+			for paragraph in label.split("\n"):
+				for start in range(0, maxi(1, paragraph.length()), 26):
+					lines.append(paragraph.substr(start, 26))
+			scene_hint_label.text = "\n".join(lines)
+			scene_hint_label.custom_minimum_size = Vector2.ZERO
+			scene_hint_label.autowrap_mode = TextServer.AUTOWRAP_OFF
+			scene_hint_popup.reset_size()
+			scene_hint_popup.show()
+			scene_hint_popup.call_deferred("reset_size"))
+		hotspot.mouse_exited.connect(func(): scene_hint_popup.hide())
 	hotspot.pressed.connect(callback)
 	_place(hotspot, stage, rect)
 	return hotspot
@@ -586,15 +745,86 @@ func _toggle_dialogue_panel() -> void:
 	dialogue_collapsed = not dialogue_collapsed
 	_apply_dialogue_visibility()
 
+func _set_scene_rect(control: Control, rect: Rect2) -> void:
+	control.anchor_left = rect.position.x
+	control.anchor_top = rect.position.y
+	control.anchor_right = rect.end.x
+	control.anchor_bottom = rect.end.y
+	control.offset_left = 0
+	control.offset_top = 0
+	control.offset_right = 0
+	control.offset_bottom = 0
+
+func _sync_counter_foreground() -> void:
+	if counter_foreground == null or counter_foreground_art == null or stage == null: return
+	_set_scene_rect(counter_foreground_art, Rect2(0, 0, 1, 1))
+
+func _apply_shop_composition(actor: Dictionary) -> void:
+	if stage == null or world == null: return
+	if world.location != "shop":
+		counter_foreground.hide()
+		if display_mat_art != null: display_mat_art.hide()
+		return
+	if conversation_panel.visible:
+		_set_scene_rect(portrait_art, Rect2(0.07, 0.20, 0.43, 0.66))
+		_set_scene_rect(character_caption, Rect2(0.08, 0.625, 0.24, 0.05))
+		_set_scene_rect(display_mat_art, Rect2(0.55, 0.67, 0.38, 0.11))
+		_set_scene_rect(object_art, Rect2(0.60, 0.51, 0.28, 0.29))
+		_set_scene_rect(object_caption, Rect2(0.61, 0.775, 0.27, 0.05))
+		_set_scene_rect(private_card, Rect2(0.56, 0.41, 0.40, 0.15))
+		_set_scene_rect(chat_toggle, Rect2(0.78, 0.035, 0.20, 0.065))
+	else:
+		# Exploration is a separate camera composition, not the dialogue layout
+		# stretched to full width.  Fixed proportional zones preserve furniture,
+		# visitor and object as three readable groups on a 16:9 stage.
+		_set_scene_rect(portrait_art, Rect2(0.16, 0.19, 0.32, 0.67))
+		_set_scene_rect(character_caption, Rect2(0.235, 0.625, 0.18, 0.05))
+		_set_scene_rect(display_mat_art, Rect2(0.55, 0.67, 0.34, 0.11))
+		_set_scene_rect(object_art, Rect2(0.60, 0.51, 0.24, 0.29))
+		_set_scene_rect(object_caption, Rect2(0.61, 0.775, 0.22, 0.05))
+		_set_scene_rect(private_card, Rect2(0.55, 0.39, 0.28, 0.15))
+		_set_scene_rect(chat_toggle, Rect2(0.31, 0.76, 0.15, 0.06))
+		_set_scene_rect(visitor_hotspot, Rect2(0.16, 0.19, 0.32, 0.67))
+		if table_hotspot != null: _set_scene_rect(table_hotspot, Rect2(0.56, 0.51, 0.30, 0.27))
+	chat_toggle.text = "继续交谈" if dialogue_collapsed else "› 收起交谈"
+	chat_toggle.tooltip_text = "继续与%s交谈" % str(actor.get("name", "客人")) if dialogue_collapsed else "收起交谈，自由操作整间铺面"
+	# The counter is architecture, not a visitor prop. It remains in the shop at
+	# noon and closing; the tray and object only exist for an active encounter.
+	counter_foreground.show()
+	var has_display := not actor.is_empty() and not world.active_item().is_empty()
+	if display_mat_art != null: display_mat_art.visible = has_display
+	object_art.visible = has_display
+	object_caption.visible = has_display
+	_sync_counter_foreground()
+
+func _portrait_texture_for(actor: Dictionary) -> Texture2D:
+	# Every recurring Chapter One NPC owns an independent portrait.  IDs may gain
+	# encounter suffixes in runtime data, so the stable character name is the
+	# primary visual key and the atlas remains a safe fallback for incidental NPCs.
+	match str(actor.get("name", "")):
+		"赵庆生": return PORTRAIT_ZHAO_2D5
+		"林若岚": return PORTRAIT_LIN_2D5
+		"孙玉梅": return PORTRAIT_SUN_2D5
+		"吴致远": return PORTRAIT_WU_2D5
+		"周伯安": return PORTRAIT_ZHOU_2D5
+		"许闻溪": return PORTRAIT_XU_2D5
+		"何景明": return PORTRAIT_HE_2D5
+		"陈素琴": return PORTRAIT_CHEN_2D5
+	return _atlas(PORTRAITS, int(actor.get("portrait_index", 0)), 4, 2)
+
 func _apply_dialogue_visibility() -> void:
 	var actor := world.active_actor() if world != null else {}
 	var available := not actor.is_empty()
+	var was_visible := conversation_panel.visible
 	conversation_panel.visible = available and not dialogue_collapsed
+	if conversation_panel.visible and not was_visible:
+		conversation_panel.modulate.a = 0.0 if motion_enabled else 1.0
+		if motion_enabled: create_tween().tween_property(conversation_panel, "modulate:a", 1.0, 0.18)
 	if stage != null and stage.get_child_count() > 1 and stage.get_child(1) is ColorRect:
 		stage.get_child(1).color = Color(0.06, 0.05, 0.03, 0.42 if conversation_panel.visible else 0.22)
 	if chat_toggle != null:
 		chat_toggle.visible = available
-		chat_toggle.text = "‹ 展开交谈" if dialogue_collapsed else "› 收起交谈"
+	_apply_shop_composition(actor)
 	_update_hotspot_visibility()
 
 func _update_hotspot_visibility() -> void:
@@ -603,10 +833,15 @@ func _update_hotspot_visibility() -> void:
 	# dialogue is open the scene is pure backdrop for the visitor and the item;
 	# closing the panel brings every clickable region back.
 	var show_frames := world.location == "shop" and not conversation_panel.visible
+	var actor := world.active_actor()
+	var has_item := not actor.is_empty() and not world.active_item().is_empty()
 	for child in stage.get_children():
 		if child.has_meta("market_dynamic"): continue
 		if child is Hotspot or child.has_meta("shop_only"):
-			child.visible = show_frames
+			if child.has_meta("item_access"):
+				child.visible = world.location == "shop" and has_item
+			else:
+				child.visible = show_frames and (not child.has_meta("visitor_only") or not actor.is_empty())
 
 func _toggle_history() -> void:
 	# Conversation history is evidence in this game. Never hide it; this shortcut
@@ -675,7 +910,7 @@ func _refresh_all() -> void:
 	_apply_dialogue_visibility()
 	portrait_art.visible = not actor.is_empty()
 	if not actor.is_empty():
-		portrait_art.texture = _atlas(PORTRAITS, int(actor["portrait_index"]), 4, 2)
+		portrait_art.texture = _portrait_texture_for(actor)
 		character_caption.text = str(actor["name"])
 		var active_item := world.active_item()
 		var item_context := " · %s" % str(active_item.get("title", "")) if not active_item.is_empty() else ""
@@ -683,6 +918,14 @@ func _refresh_all() -> void:
 	else:
 		dialogue_title.text = "尚未开始交谈"
 		character_caption.text = "柜台暂歇"
+	var active_visual_item := world.active_item()
+	if not active_visual_item.is_empty(): object_caption.text = "%s · 点击查看" % str(active_visual_item.get("title", "当前物件"))
+	var visual_item_id := str(active_visual_item.get("id", ""))
+	if visual_item_id != last_stage_item_id:
+		last_stage_item_id = visual_item_id
+		object_art.modulate.a = 0.0 if motion_enabled and not visual_item_id.is_empty() else 1.0
+		if motion_enabled and not visual_item_id.is_empty():
+			create_tween().tween_property(object_art, "modulate:a", 1.0, 0.22)
 	if meeting_summary_label != null:
 		meeting_summary_label.text = _meeting_summary(actor)
 		meeting_status_label.text = "本轮状态：" + last_topic_status
@@ -748,7 +991,7 @@ func _refresh_all() -> void:
 			portrait_art.show()
 	else:
 		character_caption.visible = not actor.is_empty()
-		object_caption.show()
+		object_caption.visible = not actor.is_empty() and not world.active_item().is_empty()
 		if actor.is_empty() and world.phase in ["noon", "closing"]:
 			continue_button.text = "进入下午营业" if world.phase == "noon" else ("第一章 · 整理旧账" if world.day == 10 else "休息 · 开始下一日")
 			continue_button.show()
@@ -766,9 +1009,9 @@ func _build_quick_actions() -> void:
 	if actor["role"] == "seller":
 		options = [["查看物品", "inspect"], ["形成判断", "appraise"]]
 	elif actor["role"] == "buyer":
-		options = [["拿一件库存给对方看", "select"]]
+		options = [["为客人挑一件", "select"]]
 	else:
-		options = [["回顾已发生往来", "social", {"topic": "trade"}], ["聊聊鉴定方法", "social", {"topic": "method"}], ["拿库存一起看", "select"]]
+		options = [["回顾已发生往来", "social", {"topic": "trade"}], ["聊聊鉴定方法", "social", {"topic": "method"}], ["拿件旧物一起看", "select"]]
 	for option in options:
 		var action := str(option[1])
 		var option_payload: Dictionary = option[2] if option.size() > 2 and option[2] is Dictionary else {}
@@ -863,6 +1106,12 @@ func _build_quick_actions() -> void:
 			story_button.pressed.connect(func(): _perform_action("story_prompt", {"prompt": prompt_text, "node_id": prompt.get("node_id", "")}, prompt_text))
 			suggestion_row.add_child(story_button)
 	if actor["role"] == "buyer" and actor.has("recommended_item_id"):
+		var current_item := world.active_item()
+		var answer_heading := Label.new()
+		answer_heading.text = "结合当前判断 · 已实时更新" if current_item.get("appraised", false) else "尚未形成判断 · 建议保留说法"
+		answer_heading.add_theme_font_size_override("font_size", 12)
+		answer_heading.add_theme_color_override("font_color", GOLD_LIGHT)
+		suggestion_row.add_child(answer_heading)
 		for draft in world.contextual_answers():
 			var value := str(draft)
 			var button := _make_button(value, false)
@@ -881,6 +1130,8 @@ func _perform_action(action: String, payload: Dictionary, player_text: String) -
 		dialogue_collapsed = false
 	var actor := world.active_actor()
 	if actor.is_empty() or actor.get("completed", false): return
+	pending_action_name = action
+	pending_item_title = str(world.active_item().get("title", "这件东西"))
 	if action not in ["inspect", "appraise", "appraise_inventory"]: _append_player(player_text)
 	var result := world.dispatch(action, payload)
 	_set_topic_status(action, result)
@@ -933,6 +1184,18 @@ func _request_llm(player_text: String, instruction: String, completed: bool, spe
 	_set_game_controls(false)
 	toast_label.text = "正在想一想……" if speaker == "inner" else "对方正在回应……"
 	_show_thinking(speaker)
+	if player_text == "客人刚刚进店。" and speaker == "npc":
+		# Openings are authored facts, not continuations of model memory. Keeping
+		# this local prevents a previous farewell or transaction from becoming the
+		# first sentence of a new visit.
+		var opening := ""
+		if str(actor.get("role", "")) == "seller":
+			var brought := world.active_item()
+			opening = "掌柜的，我带来一件《%s》，想请您看看。我开价%d元，您先上手。" % [str(brought.get("title", "旧物")), int(actor.get("ask_price", 0))]
+		else:
+			opening = str(world.person(str(actor.get("id", ""))).get("opening", "我想看看店里合适的旧物。"))
+		_on_llm_response.call_deferred(true, opening, "")
+		return
 	var history: Array[String] = []
 	var voice := str(actor.get("personality", ""))
 	if not world.person(actor["id"]).is_empty(): voice = str(world.person(actor["id"])["voice"])
@@ -942,7 +1205,9 @@ func _request_llm(player_text: String, instruction: String, completed: bool, spe
 	var item_line := ""
 	if not item.is_empty():
 		item_line = "\n当前拿到近处、正在看的物件：《%s》（确定类别：%s）。若掌柜提到别的物件名称，先确认他说的是哪一件，不要把两件不同的东西混为一件。" % [str(item.get("title", "")), str(item.get("category", ""))]
-	llm.request_npc_reply(actor["name"], voice, player_text, instruction + item_line + "\n当前场所：" + world.location + "\n连续交谈记录：\n" + world.dialogue_context(), history, speaker)
+	var opening_context := player_text == "客人刚刚进店。"
+	var role_contract := world.trade_role_contract(actor, pending_action_name)
+	llm.request_npc_reply(actor["name"], voice, player_text, instruction + role_contract + item_line + "\n当前场所：" + world.location + "\n连续交谈记录：\n" + world.dialogue_context(opening_context), history, speaker)
 
 func _on_llm_response(ok: bool, words: String, error: String) -> void:
 	if pending_mode in ["test", "start_test"]:
@@ -961,7 +1226,7 @@ func _on_llm_response(ok: bool, words: String, error: String) -> void:
 	awaiting_llm = false
 	reply_needs_retry = false
 	if pending_speaker == "inner": _append_inner(words)
-	else: _append_npc(words)
+	else: _append_npc(_validated_npc_reply(words))
 	if pending_player_text == "客人刚刚进店。": world.reveal_opening()
 	_refresh_all()
 	toast_label.text = ""
@@ -972,6 +1237,26 @@ func _on_llm_response(ok: bool, words: String, error: String) -> void:
 		else:
 			_render_location()
 	_auto_save()
+
+func _validated_npc_reply(words: String) -> String:
+	var actor := world.active_actor()
+	if actor.is_empty(): return words
+	var role := str(actor.get("role", ""))
+	var item := world.active_item()
+	var title := pending_item_title if not pending_item_title.is_empty() else str(item.get("title", "这件东西"))
+	if pending_action_name == "offer" and not world.pending_trade.is_empty():
+		if role == "seller": return "这个价我接受。等您确认交割，钱给我，《%s》交给您。" % title
+		if role == "buyer": return "这个价我可以接受。等您确认交割，我付钱，《%s》归我。" % title
+	if pending_action_name == "confirm_trade" and pending_completed:
+		if role == "seller": return "钱我收下了，《%s》您拿好，咱们钱货两清。" % title
+		if role == "buyer": return "钱已经付给您，《%s》我收下了，咱们钱货两清。" % title
+	# A malformed role reversal is safer as a short in-character correction than
+	# as dialogue that contradicts the authoritative settlement direction.
+	if role == "seller" and (words.contains("归我") or words.contains("我收下") or words.contains("钱给你") or words.contains("银子您收好")):
+		return "我说清楚些：《%s》是我带来卖的，您若收下，价钱付给我就是。" % title
+	if role == "buyer" and (words.contains("我带来") or words.contains("您出价") or words.contains("我先收着")):
+		return "我是来看货的。《%s》若合适，由我付钱向您买下。" % title
+	return words
 
 func _append_player(words: String) -> void:
 	world.remember_line("player", words)
@@ -1009,7 +1294,9 @@ func _restore_chat() -> void:
 	_clear_cards()
 	var actor := world.active_actor()
 	if actor.is_empty(): return
-	for entry in world.dialogue_memory.get(actor["id"], []).slice(-30):
+	var meeting_key := world.active_meeting_key(actor)
+	for entry in world.dialogue_memory.get(actor["id"], []):
+		if str(entry.get("meeting_key", "")) != meeting_key: continue
 		_add_chat_card("你 · 掌柜" if entry["role"] == "player" else actor["name"], entry["text"], entry["role"] == "player", false)
 
 func _add_chat_card(speaker: String, words: String, player: bool, animate := false) -> Label:
@@ -1128,10 +1415,10 @@ func _destination_card(title: String, detail: String, texture: Texture2D, region
 
 func _travel_scene() -> void:
 	if awaiting_llm: return
-	_open_modal("推门之后 · 城中往来")
 	if not world.can_go_out():
-		_paragraph("先接待完这段营业的客人。午间和闭店后，你可以推门出发。")
+		toast_label.text = "客人还在店里。先结束这次会面，午间或闭店后再出门。"
 		return
+	_open_modal("推门之后 · 城中往来")
 	_destination_card("去古玩市场", "老店沿街 · 散摊看货", MARKET, Rect2(0.03, 0.15, 0.55, 0.35), func(): _go("market"), true)
 	_destination_card("去拍卖预展", "先看货 · 想好价再举牌", MARKET, Rect2(0.60, 0.25, 0.38, 0.40), func(): _go("auction"))
 	if world.phase == "closing":
@@ -1222,7 +1509,7 @@ func _render_location() -> void:
 		scene_panel.remove_child(child)
 		child.queue_free()
 	scene_canvas.visible = world.location != "shop"
-	stage.get_child(0).texture = SHOP if world.location == "shop" else MARKET
+	stage.get_child(0).texture = SHOP_BACKGROUND_2D5 if world.location == "shop" else MARKET
 	if world.location == "tea" or world.location.begins_with("night:"):
 		stage.get_child(0).texture = TEAHOUSE
 	elif world.location == "auction":

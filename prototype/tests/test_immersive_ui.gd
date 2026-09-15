@@ -40,6 +40,10 @@ func run() -> void:
 		push_error("The quote editor must stay hidden until the player starts bargaining")
 		quit(1)
 		return
+	if not scene.counter_foreground_art.visible:
+		push_error("The foreground counter must remain part of the shop architecture")
+		quit(1)
+		return
 	scene.suggestion_toggle.pressed.emit()
 	var natural_prompt: Button
 	for child in scene.suggestion_row.get_children():
@@ -61,6 +65,17 @@ func run() -> void:
 			push_error("Shop interaction geometry must not draw polygon outlines")
 			quit(1)
 			return
+	var portrait_ids := ["zhao", "lin", "sun", "wu", "zhou", "xu", "he", "chen"]
+	for person_id in portrait_ids:
+		var texture: Texture2D = scene._portrait_texture_for(scene.world.person(person_id))
+		if texture == null or not texture.resource_path.contains("/2d5/portrait-%s-v4-alpha.png" % person_id):
+			push_error("Every principal NPC must use an independent reviewed 2.5D portrait: " + person_id)
+			quit(1)
+			return
+	if not (scene.portrait_art.z_index < scene.counter_foreground_art.z_index and scene.counter_foreground_art.z_index < scene.object_art.z_index and scene.object_art.z_index < scene.character_caption.z_index):
+		push_error("Shop depth order must remain background, portrait, foreground counter, item, then UI")
+		quit(1)
+		return
 	scene._perform_action("source", {}, "这件东西是怎么来的？")
 	if scene.thinking_card == null:
 		push_error("A pending NPC response must immediately show a thinking card")
@@ -78,6 +93,16 @@ func run() -> void:
 		push_error("Dialogue panel collapse toggle must hide the conversation panel")
 		quit(1)
 		return
+	if scene.table_hotspot == null or not scene.table_hotspot.visible:
+		push_error("The current object must remain directly clickable during focused dialogue")
+		quit(1)
+		return
+	scene.table_hotspot.pressed.emit()
+	if not scene.modal.visible:
+		push_error("Clicking the object during focused dialogue must open its record")
+		quit(1)
+		return
+	scene.modal.hide()
 	scene.chat_toggle.pressed.emit()
 	scene.history_toggle.pressed.emit()
 	if not scene.history_visible:
@@ -110,10 +135,26 @@ func run() -> void:
 		push_error("Offer must show confirmation without transferring money")
 		quit(1)
 		return
+	var seller_lines: Array = scene.world.dialogue_memory.get(scene.world.current_guest["id"], [])
+	if seller_lines.is_empty() or not str(seller_lines.back().get("text", "")).contains("钱给我"):
+		push_error("Accepted seller quote must state the correct payment direction")
+		quit(1)
+		return
 	scene.confirming_button.pressed.emit()
 	await process_frame
 	if scene.world.money != before - amount:
 		push_error("Confirmation button must settle the agreed price")
+		quit(1)
+		return
+	seller_lines = scene.world.dialogue_memory.get(scene.world.current_guest["id"], [])
+	if seller_lines.is_empty() or not str(seller_lines.back().get("text", "")).contains("钱我收下"):
+		push_error("Settled seller dialogue must not reverse ownership or payment")
+		quit(1)
+		return
+	scene._continue_flow()
+	await process_frame
+	if not scene.counter_foreground_art.visible or scene.display_mat_art.visible or scene.object_art.visible:
+		push_error("At a phase break the counter stays, while encounter tray and object are cleared")
 		quit(1)
 		return
 	var count := 0

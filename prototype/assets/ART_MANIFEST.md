@@ -50,3 +50,43 @@
 ## 拍卖场景（2026-09-08）
 
 - `auction-hall-v1.png`：拍卖场景底图。
+
+## 主店 2.5D 分层场景（2026-09-09）
+
+本轮使用 Codex 内置 imagegen 制作，未使用玩家保存的 API Key。素材保存在 `assets/2d5/`，旧主店和人物图集没有覆盖。
+
+### 构图与分层
+
+- `shop-master-v4.png`：16:9 主店构图参考。后墙留出人物轮廓空间，柜台横贯前景，左侧人物位和右侧器物位分离，右侧门口、左侧货架及两端账本/笔记保持可读。
+- `shop-background-v4.png`：同一透视与暖色右侧窗光的无人物后景，不含前景柜台。
+- `shop-counter-foreground-v4-alpha.png`：与参考图匹配的深色旧木柜台透明前景层。
+- `display-mat-v4-alpha.png`：低矮深靛色织物托垫，为不同类别器物提供统一接触锚点。
+
+场景提示词（最终规范化版本）：
+
+> Chinese realistic painterly narrative-game antique shop, wide 16:9, believable old dark timber architecture, warm daylight entering from the right doorway, rear shelves and restrained wall scroll, clear empty standing position behind the counter on the left and object display position on the right, historically plausible materials, immersive and uncluttered, no people, no readable text, no UI, no watermark. Produce matching separable rear environment and foreground counter with identical camera, perspective and lighting.
+
+前景与托垫提示词（最终规范化版本）：
+
+> Isolated production asset matching the master shop camera and warm right-side light: an aged dark hardwood antique-shop counter front / a low oval indigo woven display mat, realistic painterly material, clean silhouette, no object, no person, no text, no watermark, transparent background.
+
+### 独立人物
+
+八名人物均使用统一规范：写实中式叙事游戏立绘、腰部以上、正面略偏三分之二、双手自然可见、暖光从画面右侧进入、服装不带文字标志、透明背景。角色差异按 `chapter_one.json` 与 `CHARACTERS.md`：
+
+| 文件 | 人物与视觉要求 |
+|---|---|
+| `portrait-zhao-v4-alpha.png` | 赵庆生；朴实、略显风霜的中年街坊，旧棕工作外套，诚恳但有所保留。 |
+| `portrait-lin-v4-alpha.png` | 林若岚；三十岁左右的谨慎专业顾客，灰褐西装外套，观察感强。 |
+| `portrait-sun-v4-alpha.png` | 孙玉梅；退休女性，灰发、暗红开衫，亲切而不失警觉。 |
+| `portrait-wu-v4-alpha.png` | 吴致远；年轻男性设计从业者，眼镜、深蓝休闲衬衫和肩带。生成版背景清理未达标，最终从既有 v3 图集中单独裁出并规范到独立透明画布。 |
+| `portrait-zhou-v4-alpha.png` | 周伯安；七十余岁的资深同行，深色中式外套，沉稳审慎。 |
+| `portrait-xu-v4-alpha.png` | 许闻溪；女性修护师，米色工作衬衫和墨绿围裙，克制专注。 |
+| `portrait-he-v4-alpha.png` | 何景明；中年经纪人，深灰外套与藏蓝衬衫，圆滑自信。 |
+| `portrait-chen-v4-alpha.png` | 陈素琴；成熟的拍卖征集负责人，眼镜、深绿与黑褐职业服装，专业从容。 |
+
+人物通用提示词（最终规范化版本）：
+
+> Original Chinese character portrait for a realistic painterly narrative management game, waist-up, natural hands, subtle three-quarter stance facing the player, believable age/occupation/temperament from the character brief, warm sunlight from image right matching the antique shop, clean production cutout, no prop crossing the body, no text, no logo, no watermark, transparent background.
+
+内置生成器部分结果把棋盘格烘进 RGB 图。最终文件经 `tools/flatten_checkerboard.py` 的 `clean_isolated_layer` 清除中性浅色背景；吴致远使用 `normalize_portrait_cell` 从已批准旧图集中提升为独立画布。Godot 只引用 `*-alpha.png`。八名人物均已逐张检查身份、光向、轮廓和透明边缘，并通过实际店内构图测试。

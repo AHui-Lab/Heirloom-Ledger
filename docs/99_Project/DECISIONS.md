@@ -948,3 +948,17 @@ Affected Docs: [[UX_FLOW]], [[IMMERSIVE_REVISION_PLAN]], [[IMMERSIVE_REVISION_AC
 Status: confirmed for immersive prototype revision
 
 Boundary: 此决定确认信息层级和交互时机，不锁定最终像素尺寸、配色、动效时长或生产版响应式断点。提问提示不得泄露隐藏答案，判断未读标记不得改变或暗示 Game Core 的权威真相。
+
+## DEC-074
+
+Date: 2026-09-09
+
+Decision: 向买家推荐器物的开场介绍与后续回答建议，必须在显示或发送前根据该器物最新的玩家已知判断实时重建。观察、鉴定或复核改变判断后，不得继续使用选择器物时缓存的旧模板。建议只能使用 Game Core 授权的确定类别、已发现线索、玩家当前年代与品相判断、来源记录状态及买家已公开需求；不得读取权威隐藏真相，也不得自动向买家说出私人真品概率。概率转换为自然的不确定表达，明确判假时系统建议不再把器物作为真品介绍；玩家仍可编辑建议或自由输入。
+
+Reason: 推荐话术如果不随判断更新，会让对话与玩家刚刚完成的鉴定脱节，也可能把旧结论错误地继续说给买家。实时重建能够让鉴定真正参与交易表达，同时维持 Game Core 决定事实、LLM与界面只解释玩家已知状态的边界。
+
+Affected Docs: [[UX_FLOW]], [[ANTIQUE_SYSTEM]], [[AI_BOUNDARIES]], [[LLM_DESIGN]], [[IMMERSIVE_REVISION_ACCEPTANCE]]
+
+Status: confirmed for immersive prototype revision
+
+Boundary: 本决策不锁定最终话术数量、语气分类或措辞；系统建议不得替玩家作出出售决定，也不得把未发现线索或隐藏真伪加入介绍。
