@@ -2,10 +2,18 @@
 title: Immersive Revision Acceptance
 status: review
 owner: agent
-last_reviewed: 2026-09-06
+last_reviewed: 2026-09-09
 ---
 
 # 第二轮沉浸式原型验证
+
+## 2026-09-09 主店 2.5D 分层改版
+
+主店现使用独立后景、八名独立人物立绘、器物托垫、透明柜台前景、不可见热点和 UI 的固定层级。人物位于柜台后，器物位于柜台右侧固定展示区；不再使用从背景图矩形裁切得到的前景，也不依赖节点添加顺序。自由经营状态可操作货架、人物、器物、账本、笔记和出门；对话展开后隐藏店内热点，收起/恢复不会重置当前人物、物件或交易状态。人物/器物切换、对话展开和托垫悬停使用克制的短促淡入/提亮；关闭动效后立即完成，不影响操作。
+
+本轮实际桌面截图覆盖 `immersive_dialogue.png`、`immersive_shop_exploration.png`、`immersive_buyer_dialogue.png`、`immersive_buyer_exploration.png`、`immersive_buyer_dialogue_1280x720.png`、`immersive_private.png` 与 `immersive_bargaining.png`。视觉检查确认人物下缘被柜台自然遮挡，姓名和功能入口不覆盖人物脸部与器物；1440×900 和 1280×720 均保留完整对话阅读区。人物与分层资产来源及处理记录见 `prototype/assets/ART_MANIFEST.md`。
+
+界面测试新增八名角色到独立 `2d5` 立绘的映射检查，并继续覆盖判断未读标记、查看后消失、对话收展、延迟议价和明确成交确认。完整十日自动经营流程可通过，已超过“一完整营业日”的交付要求；默认测试及截图均使用本地模拟回复，不产生外部模型费用。
 
 ## 2026-09-08场景与对话密度改版
 
