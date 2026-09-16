@@ -1,2 +1,5 @@
 __pycache__/
 *.py[cod]
+
+# Obsidian plugin data (may contain API keys in plaintext - DO NOT commit)
+.obsidian/plugins/*/data.json
